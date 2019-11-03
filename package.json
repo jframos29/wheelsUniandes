@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -16,8 +17,8 @@
     "ws": "^7.2.0"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-react": "^7.16.0",
     "prettier": "^1.18.2"
   }
