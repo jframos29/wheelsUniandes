@@ -4,7 +4,6 @@ import NavBar from './components/NavBar/NavBar';
 import Home from './Home'
 import Login from './components/Login/Login';
 import 'bootstrap/dist/css/bootstrap.css';
-import logo from './assets/logo2.png'
 import Register from './components/Register/Register';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import PpalLog from "./components/PpalLog/PpalLog";
