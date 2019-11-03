@@ -1,15 +1,13 @@
 const MongoClient = require("mongodb").MongoClient;
 
-// const my = new MyMongoLib();
-// const my = MyMongoLib();
-
 const MyMongoLib = function() {
+
   const MyMongoLib = this || {};
 
   // Connection URL
   const url = process.env.MONGO_URL || "mongodb://localhost:27017";
   // Database Name
-  const dbName = "reactive";
+  const dbName = "wheelsUniandes";
   // Create a new MongoClient
   const client = new MongoClient(url, { useUnifiedTopology: true });
 
@@ -29,8 +27,8 @@ const MyMongoLib = function() {
           .find({})
           .limit(20)
           .toArray()
-          .then(resolve)
-          .catch(reject);
+          .then((result)=>{resolve(result);})
+          .catch((err)=>{reject(err);});
       });
     });
 
@@ -48,12 +46,10 @@ const MyMongoLib = function() {
       console.log("Listening to changes on mongo");
       csCursor.on("change", data => {
         console.log("changed!", data);
-
         MyMongoLib.getDocs().then(docs => cbk(JSON.stringify(docs)));
       });
     });
   };
-
   return MyMongoLib;
 };
 
