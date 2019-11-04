@@ -10,6 +10,7 @@ import PpalLog from "./components/PpalLog/PpalLog";
 import CrearRuta from "./components/crearRuta/CrearRuta";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
+import MisCarros from "./components/MisCarros/MisCarros";
 // 0: Home
 // 1: InicioSesion
 // 2: Register
@@ -40,6 +41,8 @@ function App(props) {
       <Route path="/login" render={(props) => <Login {...props} funcionCookie={funcionCookie} />} />
       <Route path='/ppalLog' component={PpalLog} />
       <Route path='/crearRuta' component={CrearRuta} />
+      <Route path='/misCarros' render={(props) => <MisCarros {...props}  />} />
+      
 
     </Router>
 
