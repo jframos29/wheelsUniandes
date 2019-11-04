@@ -3,7 +3,7 @@ const router = express.Router({});
 const { execQuery, functions } = require("../db");
 const authorized = require("../authorized");
 
-const collection_name = "cars";
+const collection_name = "services";
 
 
 router.get("/:userId", function (req, res) {
@@ -49,11 +49,4 @@ router.post("/agregarCarro", function (req, res) {
   })();
 });
 
-
-
 module.exports = router;
-
-
-
-
-

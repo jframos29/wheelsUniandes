@@ -3,6 +3,27 @@ const MongoClient = require("mongodb").MongoClient;
 const url = process.env.MONGO_URL || "mongodb://localhost:27017";
 const dbName = "wheelsUniandes";
 
+const getDocs = (client, collection) =>
+  new Promise((resolve, reject) => {
+    // Use connect method to connect to the Server
+    client.connect((err, client) => {
+      if (err !== null) {
+        reject(err);
+        return;
+      }
+      console.log("Connected correctly to server");
+      const db = client.db(dbName);
+      const testCol = db.collection(collection);
+
+      return testCol
+        .find({})
+        .limit(1000)
+        .toArray()
+        .then(resolve)
+        .catch(reject);
+    });
+  });
+
 const doResolve = (resolve) => {
   return (err, docs) => {
     if (err) throw err;
@@ -19,6 +40,26 @@ const doTry = (reject, fun) => {
 };
 
 const functions = {
+
+  listenToChanges(cbk, collection){
+    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+      if (err !== null) {
+        throw err;
+      }
+      console.log("Connected correctly to server");
+      const db = client.db(dbName);
+      const testCol = db.collection(collection);
+
+      const csCursor = testCol.watch();
+
+      console.log("Listening to changes on mongo");
+      csCursor.on("change", data => {
+        console.log("changed!", data);
+        getDocs(client, collection).then(docs => cbk(JSON.stringify(docs)));
+      });
+    });
+  },
+
   get(resolve, reject, db, collection_name, query = {}, limit = 100, sort = {}) {
     doTry(reject, () => {
       db.collection(collection_name)

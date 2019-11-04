@@ -21,7 +21,7 @@ const sha512 = (password, salt) => {
   };
 };
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res) => {
 
   const body = req.body;
 
@@ -44,7 +44,7 @@ router.post("/signup", (req, res, next) => {
   })();
 });
 
-router.post("/signin", (req, res, next) => {
+router.post("/signin", (req, res) => {
   const body = req.body;
   const uid = body.uid;
   const tpassword = sha512(body.password, "");
