@@ -32,6 +32,7 @@ const server = http.createServer(app);
 
 myWSLib.setupWS(server);
 functions.listenToChanges(myWSLib.notifyAll,"services");
+functions.listenToChanges(myWSLib.notifyAll, "cars");
 
 
 server.listen(port);
