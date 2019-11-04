@@ -20,6 +20,7 @@ const MyWSLib = function () {
         }
         else {
           clients[message] = ws;
+
           console.log("Connection accepted", message);
         }
       });
@@ -27,7 +28,7 @@ const MyWSLib = function () {
   };
   MyWSLib.notifyAll = data => {
     for (let ws of clients) {
-      ws.send(data);
+      ws.send("services#"+JSON.stringify(data));
     }
   };
 
