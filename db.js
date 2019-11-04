@@ -11,7 +11,6 @@ const getDocs = (client, collection) =>
         reject(err);
         return;
       }
-      console.log("Connected correctly to server");
       const db = client.db(dbName);
       const testCol = db.collection(collection);
 
@@ -54,7 +53,6 @@ const functions = {
 
       console.log("Listening to changes on "+collection+" collection");
       csCursor.on("change", data => {
-        console.log("changed!", data);
         getDocs(client, collection).then(docs => cbk(JSON.stringify(docs)));
       });
     });

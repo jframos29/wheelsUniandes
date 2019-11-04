@@ -32,6 +32,8 @@ function NavBar(props) {
 
   function cerrarSesion(e) {
     e.preventDefault();
+    const temp = JSON.parse(props.cookies.cookies.wheelsUser);
+    props.wsConnection.send("END:"+temp.uid);
     props.signout(e);
     irHome(e);
   }
@@ -40,7 +42,6 @@ function NavBar(props) {
     e.preventDefault();
     history.push("/misCarros");
   }
-  console.log(props);
 
   return (
     !props.cookies.cookies.wheelsUser || !props.cookies.cookies.wheelsToken ?

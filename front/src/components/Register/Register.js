@@ -8,7 +8,7 @@ function Register(props) {
 
   let history = useHistory();
   const backUrl = "http://localhost:3001";
-  const wsUrl = "wss://localhost:3001";
+  const wsUrl = "ws://localhost:3001/";
   
 
   const [correo, setCorreo] = useState("");
@@ -26,9 +26,6 @@ function Register(props) {
     else {
       registrar(evt);
     }
-    console.log(correo);
-    console.log(pw);
-    console.log(pwConfirm);
 }
 
 const registrar = (e) => {
@@ -53,11 +50,12 @@ const registrar = (e) => {
     }
     else {
       history.push("/ppalLog");
-      const temp = JSON.parse(props.cookies.cookies.wheelsUser);
-      const connection = new WebSocket(wsUrl);
-      connection.onopen = () => {
-        connection.send(temp.uid);
-      }
+      props.wsConn();
+      // const temp = JSON.parse(props.cookies.cookies.wheelsUser);
+      // const connection = new WebSocket(wsUrl);
+      // connection.onopen = () => {
+      //   connection.send(temp.uid);
+      // }
     }
   })();
 };

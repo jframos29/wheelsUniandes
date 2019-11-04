@@ -7,12 +7,11 @@ function Login(props) {
 
   let history = useHistory();
   const backUrl = "http://localhost:3001";
-
+  const wsUrl = "ws://localhost:3001/";
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);
 
-  const wsUrl = "wss://localhost:3001";
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -35,17 +34,18 @@ function Login(props) {
       const rta = await req.json();
 
       props.funcionCookie(rta.token, correo);
-     console.log(props.cookies.cookies.wheelsToken==="undefined", typeof(props.cookies.cookies.wheelsToken),props.cookies.cookies.wheelsToken);
       if(props.cookies.cookies.wheelsToken==="" || props.cookies.cookies.wheelsToken==="undefined" ) {
         setError(true);
+        props.signout(e);
       }
       else {
         history.push("/ppalLog");
-        const temp = JSON.parse(props.cookies.cookies.wheelsUser);
-        const connection = new WebSocket(wsUrl);
-        connection.onopen = () => {
-          connection.send(temp.uid);
-        }
+        props.wsConn();
+        // const temp = JSON.parse(props.cookies.cookies.wheelsUser);
+        // const connection = new WebSocket(wsUrl);
+        // connection.onopen = () => {
+        //   connection.send(temp.uid);
+        // }
       }
 
     })();

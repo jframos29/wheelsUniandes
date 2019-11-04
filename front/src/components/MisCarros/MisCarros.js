@@ -20,12 +20,20 @@ function MisCarros(props) {
         <div className="row">
           <div className="col-sm-12 col-md-5 col-lg-5">
             <h1>Tus carros </h1>
-            <p>Aún no tienes carros :(</p>
+            {props.carros.length > 0 ?
+              props.carros
+                .map((element) => {
+                  return <p key={element.placas}>
+                    {element.marca} {element.linea} de placas <strong>{element.placas}</strong>
+                  </p>
+                })
+              :
+              <p>Aún no tienes carros :(</p>}
           </div>
           <div className=" col-md-2 col-lg-2"></div>
           <div className="col-sm-12 col-md-5 col-lg-5 ">
             {agregar ?
-              <AñadirCarro {...props}  />
+              <AñadirCarro {...props} />
               :
               <div className="App">
                 <div>

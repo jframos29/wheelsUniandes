@@ -14,9 +14,9 @@ function AñadirCarro(props) {
   const [cupos, setCupos] = useState(0);
 
   const backUrl = "http://localhost:3001";
-
+  const actualUser = JSON.parse(props.cookies.cookies.wheelsUser).uid;
   const body = {
-    "uid":"dani",
+    "uid":actualUser,
     "carro": {"marca": marca,
       "linea": linea,
       "placas": placas,
@@ -24,15 +24,11 @@ function AñadirCarro(props) {
       "cupos": cupos
     }
   };
-  console.log(body);
   
 
   const crearCarro = ()=>{
     (async () => {
-      console.log(props);
-      
       const user = props.cookies.get('wheelsUser');
-      console.log(user, props);
       const req = await fetch(`${backUrl}/cars/agregarcarro`, {
         method:'POST',
         body: JSON.stringify(body),
@@ -43,7 +39,6 @@ function AñadirCarro(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
       
       //usa la respuesta
     })();
@@ -51,15 +46,12 @@ function AñadirCarro(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(placas, color, cupos);
     crearCarro();
 
   }
-
-  console.log(props);
   return (
     <form className="form " onSubmit={handleSubmit}>
-      <h1>Añadir nuevo carro</h1>
+      <h1>Añadir nuevo carro </h1>
       <div className="form-group">
         <label htmlFor="marca">Marca de tu carro</label>
         <input type="text" className="form-control" id="marca" onChange={e => setMarca(e.target.value)} placeholder="Ingresa la marca Ej. Mazda" />

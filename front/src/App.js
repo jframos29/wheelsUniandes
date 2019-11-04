@@ -16,10 +16,12 @@ import MisCarros from "./components/MisCarros/MisCarros";
 // 2: Register
 // 3: PpalLog
 
-function App(props) {
-  const [vista, setVista] = useState(0);
-  const [loggeado, setLoggeado] = useState(false);
 
+function App(props) {
+  const [wsConnection, setConnection] = useState(null);
+  const [carros, setCarros] = useState([]);
+
+  const wsUrl = "ws://localhost:3001/";
 
   const funcionCookie = (cookie, user) => {
     props.cookies.set('wheelsToken', cookie, { path: '/' });
@@ -33,17 +35,47 @@ function App(props) {
     props.cookies.set('wheelsToken', '');
   }
 
+  const wsConn = () => {
+    const temp = JSON.parse(props.cookies.cookies.wheelsUser);
+    const connection = new WebSocket(wsUrl);
+    
+    connection.onopen = () => {
+      connection.send(temp.uid);
+    }
+
+    connection.onmessage = (msg)=>{
+      if (msg.data.includes("cars#")) {
+        const data = msg.data.split("#")[1];
+        const jsonData = JSON.parse(data);
+        console.log(jsonData);
+        for(let i=0; i<jsonData.length; i++) {
+          
+        }
+        setCarros(jsonData);
+      }
+      else {
+       //TODO
+      }
+    };
+    
+    connection.onclose = () => {
+      console.log("se fue papá");
+    };
+
+    setConnection(connection);
+  }
+
 
   return (
     <Router>
 
-      <Route path="/" render={() => <NavBar {...props} signout={signout} />} />
+      <Route path="/" render={() => <NavBar {...props} signout={signout} wsConnection={wsConnection} />} />
       <Route path="/" component={Home} exact />
-      <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} />}  />
-      <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} />} />
+      <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} wsConn ={wsConn} />}  />
+      <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} wsConn ={wsConn} />} />
       <Route path='/ppalLog' render={() => <PpalLog {...props} />}/>
       <Route path='/crearRuta' component={CrearRuta} />
-      <Route path='/misCarros' render={() => <MisCarros {...props}  />} />
+      <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros}  />} />
       
 
     </Router>
