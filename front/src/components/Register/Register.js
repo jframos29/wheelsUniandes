@@ -17,7 +17,7 @@ function Register() {
   return (
     true ?
 <div className="App">
-          <div className="container">
+          <div className="container heading">
             <h2>Registro</h2>
             <div className="heading">
               <div className="row">
