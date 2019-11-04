@@ -24,7 +24,7 @@ function Home() {
               <i><h4>Únete y haz que tu experiencia de movilidad  <br />hacia la U sea mucho más agradable</h4></i>
             </div>
             <div className="heading">
-              <p>¡Regístrate, Crea rutas de Wheels o Únete a otra rutas!</p>
+              <p>¡<a href="/register">Regístrate</a>, Crea rutas de Wheels o Únete a otra rutas!</p>
             </div>
           </div>
         </div>

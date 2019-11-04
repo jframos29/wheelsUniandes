@@ -48,11 +48,11 @@ function PpalLog(props) {
                     <form className="form" onSubmit={handleSubmit}>
                       <div className="form-group">
                         <label htmlFor="origen">¿De dónde sales?</label>
-                        <input type="text" className="form-control" id="origen" onChange={e => setOrigen(e.target.value)} placeholder="Ingresa el origen" />
+                        <input required type="text" className="form-control" id="origen" onChange={e => setOrigen(e.target.value)} placeholder="Ingresa el origen" />
                       </div>
                       <div className="form-group">
                         <label htmlFor="destino">¿A dónde te diriges?</label>
-                        <input type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa tu destino" />
+                        <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa tu destino" />
                       </div>
                       <button type="submit" className="btn yellow-black">Buscar</button>
                     </form>
@@ -64,7 +64,7 @@ function PpalLog(props) {
         </div>
       </div>
       :
-      <div>Error</div>
+      <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br/> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
   );
 }
 

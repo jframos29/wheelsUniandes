@@ -6,14 +6,9 @@ import crear from '../../assets/crear.png'
 
 function RutasDisponibles(props) {
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-  }
-
 
   return (
-    true ?
+    props.cookies.cookies.wheelsToken ?
       <div className="App">
         <div className="container heading">
           <h1>Rutas disponibles para tí, {props.allCookies.wheelsUser.uid} </h1>
@@ -29,7 +24,7 @@ function RutasDisponibles(props) {
           </div>        </div>
       </div>
       :
-      <div></div>
+      <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br/> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
   );
 }
 
