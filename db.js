@@ -53,6 +53,7 @@ const functions = {
 
       console.log("Listening to changes on "+collection+" collection");
       csCursor.on("change", data => {
+        console.log(data);
         getDocs(client, collection).then(docs => cbk(JSON.stringify(docs)));
       });
     });

@@ -59,12 +59,12 @@ function CrearRuta(props) {
       setLatOrigen(tempO.lat);
       setLonOrigen(tempO.lng);
 
-      setLatDestino(tempO.lat);
-      setLonDestino(tempO.lng);
+      setLatDestino(tempD.lat);
+      setLonDestino(tempD.lng);
       console.log("origen", latOrigen, lonOrigen);
       console.log("destino", latDestino, lonDestino);
 
-
+      setConfirmacion(true);
 
       //usa la respuesta
     })();
@@ -129,22 +129,27 @@ function CrearRuta(props) {
                 </div>
                 <button type="submit" className="btn yellow-black">Crear ruta</button>
               </form>
-              {/* {confirmacion ?
-                <div>
-                  Origen
+              {confirmacion ?
+                <div className="row maps heading">
+                  <div className="col-6 origen">
+                    Origen
                   <MapContainer
-                  lat={latOrigen}
-                  lng={lonOrigen}
-                  ></MapContainer>
-                  Destino
+                      lat={latOrigen}
+                      lng={lonOrigen}
+                    ></MapContainer>
+                  </div>
+
+                  <div className="col-6 destino">
+                    Destino
                   <MapContainer
-                  lat={latDestino}
-                  lng={lonDestino}
-                  ></MapContainer>
-                  
+                      lat={latDestino}
+                      lng={lonDestino}
+                    ></MapContainer>
+                  </div>
+
                 </div>
                 :
-                <div></div>} */}
+                <div></div>}
             </div>
             <div className="col-sm-2 col-md-2 col-lg-3"></div>
           </div>        </div>
