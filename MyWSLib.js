@@ -40,6 +40,7 @@ const MyWSLib = function () {
         if(tempJson[i].uid===userT) {
           tempData.push(tempJson[i]);
         }
+        console.log(tempData);
       }
       clients[userT].send("cars#"+JSON.stringify(tempData));
     }

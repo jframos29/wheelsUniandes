@@ -62,10 +62,11 @@ router.post("/confirmarServicio",function(req, res){
         console.log(resultadoInicio);
         console.log(resultadoFin);
         res.status(200);
-        res.send({msg:"OK"});
+        res.send({"resultadoInicio":resultadoInicio.json,
+          "resultadoFin":resultadoFin.json});
       } catch (error) {
         res.status(500);
-        res.send(error);
+        res.send({"msg":error});
       }
     }
     else {
