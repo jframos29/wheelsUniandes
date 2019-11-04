@@ -38,7 +38,7 @@ router.post("/signup", (req, res, next) => {
 
 router.post("/signin", (req, res, next) => {
   const body = req.body;
-  const uid = +body.uid;
+  const uid = body.uid;
   const tpassword = sha512(body.password, "");
 
   (async () => {
