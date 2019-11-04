@@ -5,9 +5,9 @@ import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
 
 function PpalLog(props) {
-  console.log(props);
+  console.log(props.cookies.cookies.wheelsToken);
   return (
-    true ?
+    props.cookies.cookies.wheelsToken ?
       <div className="App">
         <div className="container heading">
           <h1>Bienvenido {props.allCookies.wheelsUser.uid} </h1>
@@ -26,7 +26,7 @@ function PpalLog(props) {
         </div>
       </div>
       :
-      <div></div>
+      <div>Error</div>
   );
 }
 

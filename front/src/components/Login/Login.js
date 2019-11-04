@@ -10,6 +10,7 @@ function Login(props) {
 
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
+  const [error, setError] = useState(false);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -32,8 +33,14 @@ function Login(props) {
       const rta = await req.json();
 
       props.funcionCookie(rta.token, correo);
+     console.log(props.cookies.cookies.wheelsToken==="undefined", typeof(props.cookies.cookies.wheelsToken),props.cookies.cookies.wheelsToken);
+      if(props.cookies.cookies.wheelsToken==="" || props.cookies.cookies.wheelsToken==="undefined" ) {
+        setError(true);
+      }
+      else {
+        history.push("/ppalLog");
+      }
 
-      history.push("/ppalLog");
     })();
   };
 
@@ -55,6 +62,11 @@ function Login(props) {
                     <label htmlFor="pw">Contraseña</label>
                     <input type="password" className="form-control" id="pw" onChange={e => setPw(e.target.value)} placeholder="Contraseña" />
                   </div>
+                  {error ?
+                  <div className="text-danger">Tus credenciales no son válidas</div>
+                  :
+                  <div></div>
+                  }
                   <button type="submit" className="btn yellow-black">Inicia sesión</button>
                 </form>
               </div>

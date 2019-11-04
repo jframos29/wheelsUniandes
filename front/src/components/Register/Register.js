@@ -13,7 +13,9 @@ function Register(props) {
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
   const [error, setError] = useState(false);
+  const [error2, setError2] = useState(false);
   
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     if(pw!=pwConfirm) {
@@ -30,6 +32,8 @@ function Register(props) {
 const registrar = (e) => {
   (async () => {
     e.preventDefault();
+    setError(false);
+    setError2(false);
     const data = {
       uid: correo,
       password: pw
@@ -40,11 +44,14 @@ const registrar = (e) => {
       headers: { 'Content-Type': 'application/json' }
     });
     const rta = await req.json();
-    console.log(props);
-    
-    props.funcionCookie(rta.opstoken, correo);
-
-    history.push("/ppalLog");
+    props.funcionCookie(rta.token, correo);
+    if(props.cookies.cookies.wheelsToken==="" || props.cookies.cookies.wheelsToken==="undefined" ) {
+      setError2(true);
+    props.signout(e);
+    }
+    else {
+      history.push("/ppalLog");
+    }
   })();
 };
 
@@ -70,11 +77,18 @@ const registrar = (e) => {
                     <label htmlFor="pw-confirm">Confimación contraseña</label>
                     <input type="password" className="form-control" id="pw-confirm" onChange={e => setPwConfirm(e.target.value)} placeholder="Confirma tu contraseña" />
                   </div>
+                  {
+                    error2 ? 
+                    <div className="text-danger">Este usuario ya existe</div>
+                    :
+                    <div></div>
+                  }
                   {error ?
                   <div className="text-danger">Las contraseñas ingresadas no coinciden</div>
                   :
                   <div></div>
                   }
+                  
                   <button type="submit" className="btn yellow-black">Regístrate</button>
                 </form>
                 </div>

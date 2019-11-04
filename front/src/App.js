@@ -39,8 +39,8 @@ function App(props) {
 
       <Route path="/" render={() => <NavBar {...props} signout={signout} />} />
       <Route path="/" component={Home} exact />
-      <Route path="/register" render={(props) => <Register {...props} funcionCookie={funcionCookie} />}  />
-      <Route path="/login" render={(props) => <Login {...props} funcionCookie={funcionCookie} />} />
+      <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} />}  />
+      <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} />} />
       <Route path='/ppalLog' render={() => <PpalLog {...props} />}/>
       <Route path='/crearRuta' component={CrearRuta} />
       <Route path='/misCarros' render={(props) => <MisCarros {...props}  />} />
