@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png'
 import './NavBar.css';
 import { useHistory } from "react-router-dom";
 
-function NavBar(props ) {
+function NavBar(props) {
 
 
   let history = useHistory();
@@ -25,13 +25,28 @@ function NavBar(props ) {
     history.push("/");
   }
 
-  
+  function irPpal(e) {
+    e.preventDefault();
+    history.push("/ppalLog");
+  }
+
+  function cerrarSesion(e) {
+    e.preventDefault();
+    props.signout(e);
+    irHome(e);
+  }
+
+  function misCarros(e) {
+    e.preventDefault();
+    history.push("/misCarros");
+  }
+  console.log(props);
 
   return (
-    !props.cookies.cookies.wheelsUser || !props.cookies.cookies.wheelsToken  ?
+    !props.cookies.cookies.wheelsUser || !props.cookies.cookies.wheelsToken ?
       <nav className="navbar navbar-light navbar-custom">
         <a onClick={irHome} className="navbar-brand">
-         
+
           <img alt="logo" id="logo-brand" src={logo}></img>
         </a>
         <form className="form-inline">
@@ -41,11 +56,12 @@ function NavBar(props ) {
       </nav>
       :
       <nav className="navbar navbar-light navbar-custom">
-        <a onClick={irHome} className="navbar-brand">
-          
+        <a onClick={irPpal} className="navbar-brand">
+
           <img alt="logo" id="logo-brand" src={logo}></img>
         </a>
-        <form className="form-inline" onSubmit={props.signout}>
+        <form className="form-inline" onSubmit={cerrarSesion}>
+          <button onClick={misCarros} className="btn my-2 my-sm-0 yellow" >Mis Carros</button>
           <button type="submit" className="btn my-2 my-sm-0 yellow" >Cerrar sesión</button>
         </form>
       </nav>
