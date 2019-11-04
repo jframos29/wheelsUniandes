@@ -4,6 +4,8 @@ import './crearRuta.css';
 import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
 import MapContainer from '../Map/MapContainer'
+import { useHistory } from "react-router-dom";
+import Flatpickr from "react-flatpickr";
 
 function CrearRuta(props) {
 
@@ -19,21 +21,75 @@ function CrearRuta(props) {
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
 
+  let history = useHistory();
   const dotenv = require("dotenv");
   dotenv.config();
 
   function handleSubmit(e) {
     e.preventDefault();
+    setConfirmacion(false);
     console.log(origen, destino, hora);
     confirmarServicio();
   }
 
+
+  function repetirProceso() {
+    alert("Vuelve a ingresar los datos para obtener mayor precisión");
+  }
   const backUrl = "http://localhost:3001";
 
   const style = {
     width: '100%',
     height: '100%'
   }
+  const formatDate = date => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  };
+
+  function enviarRuta() {
+    alert("wujuu");
+    // /services/crearServicio
+    crearServicio();
+  }
+  const actual = formatDate(new Date());
+
+  const crearServicio = () => {
+    (async () => {
+      const user = props.cookies.get('wheelsUser');
+      const body = JSON.stringify({
+        "usuarios": [],
+        "waypoints": [],
+        "initial": {
+          "lat": latOrigen,
+          "lng": lonOrigen
+        },
+        "destination": {
+          "lat": latDestino,
+          "lng": lonDestino
+        },
+        "comenzado": false,
+        "terminado": false,
+        "departureTime": null
+      });
+      const req = await fetch(`${backUrl}/services/crearServicio`, {
+        method: 'POST',
+        body: body,
+        headers: {
+          'Authorization': `Bearer ${props.cookies.get('wheelsToken')}`,
+          'user': JSON.stringify(user),
+          'Content-Type': 'application/json'
+        }
+      });
+      const rta = await req.json();
+      console.log(rta);
+    })();
+  }
+
+
+
+
+
+
 
   const confirmarServicio = () => {
     (async () => {
@@ -130,22 +186,30 @@ function CrearRuta(props) {
                     }
                   </select>
                 </div>
+                {/* <input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="datetime" readonly="readonly"/> */}
                 <button type="submit" className="btn yellow-black">Crear ruta</button>
               </form>
               {confirmacion ?
                 <div className="row maps heading">
                   <div className="col-6 origen">
-                    Origen
-                  <MapContainer
+                    ¿Es correcto el <i>origen</i>?
+                    <br />
+                    <button onClick={enviarRuta} className="btn yellow">Sí</button>
+                    <button onClick={repetirProceso} className="btn yellow">No</button>
+
+                    <MapContainer
                       lat={latOrigen}
                       lng={lonOrigen}
                     ></MapContainer>
-                    
+
                   </div>
 
                   <div className="col-6 destino">
-                    Destino
-                  <MapContainer
+                    ¿Es correcto el <i>destino</i>?
+                    <br />
+                    <button onClick={enviarRuta} className="btn yellow">Sí</button>
+                    <button onClick={repetirProceso} className="btn yellow">No</button>
+                    <MapContainer
                       lat={latDestino}
                       lng={lonDestino}
                     ></MapContainer>

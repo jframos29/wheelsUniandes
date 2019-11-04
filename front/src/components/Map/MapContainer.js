@@ -3,7 +3,7 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 
 const mapStyles = {
   width: '100%',
-  height: '18rem'
+  height: '16rem'
 };
 const dotenv = require("dotenv");
 dotenv.config();
