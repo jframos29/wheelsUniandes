@@ -8,13 +8,13 @@ const collection_name = "services";
 
 const getKilometros = (lat1, lon1, lat2, lon2) => {
   var rad = function (x) { return x * Math.PI / 180; };
-  var R = 6378.137; //Radio de la tierra en km
+  var R = 6378.137;
   var dLat = rad(lat2 - lat1);
   var dLong = rad(lon2 - lon1);
   var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-  return d.toFixed(3); //Retorna tres decimales
+  return d.toFixed(3);
 };
 
 
@@ -115,34 +115,46 @@ router.get("/terminarServicio/:idService", function (req, res) {
 
 router.post("/buscarServicio", function (req, res) {
   (async () => {
-    const body = req.body;
-    const destination = body.fin;
-    var resultados = [];
-    const result = await execQuery(functions.get, collection_name, { "terminado": false });
-    for (let service in result) {
-      const distancia = getKilometros(service.destination.lat, service.destination.lng, destination.lat, destination.lng);
-      if (distancia <= 0.5) {
-        resultados.push(service);
+    const hasAuth = await authorized(req);
+    if (hasAuth) {
+      const body = req.body;
+      const destination = body.fin;
+      var resultados = [];
+      const result = await execQuery(functions.get, collection_name, { "terminado": false });
+      for (let service in result) {
+        const distancia = getKilometros(service.destination.lat, service.destination.lng, destination.lat, destination.lng);
+        if (distancia <= 1) {
+          resultados.push(service);
+        }
       }
+      res.send(JSON.stringify(resultados));
     }
-    res.send(JSON.stringify(resultados));
+    else {
+      res.sendStatus(403);
+    }
   })();
 });
 
 router.post("/calificarServicio", function (req, res) {
   (async () => {
-    const body = req.body;
-    const calificacion = body.calificacion;
-    const idService = body.idService;
-    const result = await execQuery(functions.getOne, collection_name, { "_id":idService,"terminado": true });
-    if(result){
-      await execQuery(functions.updateOne, collection_name, { "_id": idService }, { "$push": { "calificaciones": calificacion } });
-      res.status(200);
-      res.send({msg:"OK"});
+    const hasAuth = await authorized(req);
+    if(hasAuth){
+      const body = req.body;
+      const calificacion = body.calificacion;
+      const idService = body.idService;
+      const result = await execQuery(functions.getOne, collection_name, { "_id":idService,"terminado": true });
+      if(result){
+        await execQuery(functions.updateOne, collection_name, { "_id": idService }, { "$push": { "calificaciones": calificacion } });
+        res.status(200);
+        res.send({msg:"OK"});
+      }
+      else{
+        res.status(400);
+        res.send({msg:"El servicio no ha finalizado"});
+      }
     }
     else{
-      res.status(400);
-      res.send({msg:"El servicio no ha finalizado"});
+      res.sendStatus(403);
     }
   })();
 });
