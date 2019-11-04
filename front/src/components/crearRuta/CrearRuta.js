@@ -19,6 +19,9 @@ function CrearRuta(props) {
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
 
+  const dotenv = require("dotenv");
+  dotenv.config();
+
   function handleSubmit(e) {
     e.preventDefault();
     console.log(origen, destino, hora);
@@ -137,6 +140,7 @@ function CrearRuta(props) {
                       lat={latOrigen}
                       lng={lonOrigen}
                     ></MapContainer>
+                    
                   </div>
 
                   <div className="col-6 destino">
