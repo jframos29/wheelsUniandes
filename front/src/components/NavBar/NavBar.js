@@ -33,9 +33,15 @@ function NavBar(props) {
   function cerrarSesion(e) {
     e.preventDefault();
     const temp = JSON.parse(props.cookies.cookies.wheelsUser);
-    props.wsConnection.send("END:"+temp.uid);
-    props.signout(e);
-    irHome(e);
+    if (props.wsConnection) {
+      props.wsConnection.send("END:" + temp.uid);
+      props.signout(e);
+      irHome(e);
+    }
+    else {
+      props.signout(e);
+      irHome(e);
+    }
   }
 
   function misCarros(e) {

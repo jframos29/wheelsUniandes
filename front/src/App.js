@@ -50,14 +50,13 @@ function App(props) {
       const rta = await req.json();
       console.log(rta);
       setCarros(rta);
-      
     })();
   };
-  
+
   const wsConn = () => {
     const temp = JSON.parse(props.cookies.cookies.wheelsUser);
     const connection = new WebSocket(wsUrl);
-    
+
     connection.onopen = () => {
       connection.send(temp.uid);
     }
@@ -66,17 +65,13 @@ function App(props) {
       if (msg.data.includes("cars#")) {
         const data = msg.data.split("#")[1];
         const jsonData = JSON.parse(data);
-        console.log(jsonData);
-        for(let i=0; i<jsonData.length; i++) {
-
-        }
         setCarros(jsonData);
       }
       else {
        //TODO
       }
     };
-    
+
     connection.onclose = () => {
       console.log("se fue papá");
     };
@@ -98,7 +93,7 @@ function App(props) {
       <Route path='/crearRuta' render={() => <CrearRuta {...props} carros={carros} />} />
       <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros}  />} />
       <Route path='/rutasDisponibles' render={() => <RutasDisponibles {...props} carros={carros}  />} />
-      
+
 
     </Router>
 
