@@ -4,7 +4,7 @@ import './crearRuta.css';
 import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
 
-function CrearRuta() {
+function CrearRuta(props) {
 
   const [placas, setPlacas] = useState('');
   const [color, setColor] = useState('');
@@ -41,10 +41,10 @@ function CrearRuta() {
   }
 
   return (
-    true ?
+    props.cookies.cookies.wheelsToken ?
       <div className="App">
         <div className="container heading">
-          <h1>Crea una nueva ruta usuario </h1>
+          <h1>Crea una nueva ruta, {props.allCookies.wheelsUser.uid} </h1>
           <div className="row">
             <div className="col-sm-2 col-md-2 col-lg-3"></div>
             <div className="col-sm-8 col-md-8 col-lg-6">
@@ -52,21 +52,31 @@ function CrearRuta() {
                
                 <div className="form-group">
                   <label htmlFor="origen">Origen de tu ruta</label>
-                  <input type="text" className="form-control" id="origen" onChange={e => setOrigen(e.target.value)} placeholder="Ingresa desde dónde sales" />
+                  <input required type="text" className="form-control" id="origen" onChange={e => setOrigen(e.target.value)} placeholder="Ingresa desde dónde sales" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="destino">Destino de tu ruta</label>
-                  <input type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa cuál es tu destino" />
+                  <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa cuál es tu destino" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="hora">Hora de salida</label>
-                  <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" className="form-control" id="hora" onChange={e => setHora(e.target.value)} placeholder="Ingresa a qué hora sales Ej. 14:00" />
+                  <input required type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" className="form-control" id="hora" onChange={e => setHora(e.target.value)} placeholder="Ingresa a qué hora sales Ej. 14:00" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="carro">Elige el carro de esta ruta</label>
-                  <select className="form-control" id="carro" placeholder="Elige el carro">
+                  <select required className="form-control" id="carro" placeholder="Elige el carro">
                     <option>Elige uno de tus carros</option>
-                    <option value="bla">bla</option>
+                    {props.carros && props.carros.length > 0 ?
+              props.carros
+                .map((element) => {
+                  return <option value={element.placas}>
+                    {element.marca} {element.linea} de placas {element.placas}
+                  </option>
+                })
+              :
+              <div></div>
+              // <option disabled>Agrega algún carro</option>
+            }
                   </select>
                 </div>
                 <button type="submit" className="btn yellow-black">Crear ruta</button>
@@ -76,8 +86,9 @@ function CrearRuta() {
           </div>        </div>
       </div>
       :
-      <div></div>
+      <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br/> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
   );
 }
 
 export default CrearRuta;
+

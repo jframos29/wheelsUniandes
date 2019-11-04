@@ -22,7 +22,6 @@ const MyWSLib = function () {
           clients[message] = ws;
           console.log("Connection accepted", message);
         }
-
       });
     });
   };
@@ -40,9 +39,7 @@ const MyWSLib = function () {
       for(let i=0; i< tempJson.length; i++) {
         if(tempJson[i].uid===userT) {
           tempData.push(tempJson[i]);
-
         }
-
       }
       clients[userT].send("cars#"+JSON.stringify(tempData));
     }

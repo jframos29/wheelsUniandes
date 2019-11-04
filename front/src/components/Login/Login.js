@@ -52,7 +52,6 @@ function Login(props) {
   };
 
   return (
-    true ?
       <div className="App">
         <div className="container heading">
           <h2>Inicio sesión</h2>
@@ -63,11 +62,11 @@ function Login(props) {
                 <form className="form" onSubmit={iniciarSesion}>
                   <div className="form-group">
                     <label htmlFor="user">Usuario</label>
-                    <input type="text" className="form-control" id="user" onChange={e => setCorreo(e.target.value)} placeholder="Ingresa tu usuario" />
+                    <input required type="text" className="form-control" id="user" onChange={e => setCorreo(e.target.value)} placeholder="Ingresa tu usuario" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="pw">Contraseña</label>
-                    <input type="password" className="form-control" id="pw" onChange={e => setPw(e.target.value)} placeholder="Contraseña" />
+                    <input required type="password" className="form-control" id="pw" onChange={e => setPw(e.target.value)} placeholder="Contraseña" />
                   </div>
                   {error ?
                   <div className="text-danger">Tus credenciales no son válidas</div>
@@ -83,8 +82,6 @@ function Login(props) {
           </div>
         </div>
       </div>
-      :
-      <div></div>
   );
 }
 
