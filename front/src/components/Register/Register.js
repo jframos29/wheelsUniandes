@@ -1,18 +1,52 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import './Register.css';
-function Register() {
+import { useHistory } from "react-router-dom";
+
+function Register(props) {
+
+
+  let history = useHistory();
+  const backUrl = "http://localhost:3001";
 
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
+  const [error, setError] = useState(false);
   
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    if(pw!=pwConfirm) {
+      setError(true);
+    }
+    else {
+      registrar(evt);
+    }
     console.log(correo);
     console.log(pw);
     console.log(pwConfirm);
 }
+
+const registrar = (e) => {
+  (async () => {
+    e.preventDefault();
+    const data = {
+      uid: correo,
+      password: pw
+    };
+    const req = await fetch(`${backUrl}/auth/signup`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const rta = await req.json();
+    console.log(props);
+    
+    props.funcionCookie(rta.opstoken, correo);
+
+    history.push("/ppalLog");
+  })();
+};
 
   return (
     true ?
@@ -25,8 +59,8 @@ function Register() {
                 <div className="col-sm-8 col-md-8 col-lg-6">
                   <form className="form" onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label htmlFor="correo">Correo electrónico</label>
-                    <input type="email" className="form-control" id="correo" onChange={e => setCorreo(e.target.value)}placeholder="Ingresa tu correo" />
+                    <label htmlFor="user">Usuario</label>
+                    <input type="text" className="form-control" id="user" onChange={e => setCorreo(e.target.value)}placeholder="Ingresa tu usuario" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="pw">Contraseña</label>
@@ -36,6 +70,11 @@ function Register() {
                     <label htmlFor="pw-confirm">Confimación contraseña</label>
                     <input type="password" className="form-control" id="pw-confirm" onChange={e => setPwConfirm(e.target.value)} placeholder="Confirma tu contraseña" />
                   </div>
+                  {error ?
+                  <div className="text-danger">Las contraseñas ingresadas no coinciden</div>
+                  :
+                  <div></div>
+                  }
                   <button type="submit" className="btn yellow-black">Regístrate</button>
                 </form>
                 </div>

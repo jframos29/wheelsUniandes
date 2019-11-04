@@ -11,7 +11,6 @@ import CrearRuta from "./components/crearRuta/CrearRuta";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import MisCarros from "./components/MisCarros/MisCarros";
-import { useHistory } from "react-router-dom";
 // 0: Home
 // 1: InicioSesion
 // 2: Register
@@ -21,10 +20,10 @@ function App(props) {
   const [vista, setVista] = useState(0);
   const [loggeado, setLoggeado] = useState(false);
 
+
   const funcionCookie = (cookie, user) => {
     props.cookies.set('wheelsToken', cookie, { path: '/' });
     props.cookies.set('wheelsUser', { "uid": user });
-    
 
   }
 
@@ -38,11 +37,11 @@ function App(props) {
   return (
     <Router>
 
-      <Route path="/" render={() => <NavBar {...props} loggeado={loggeado} vista={vista} signout={signout} />} />
+      <Route path="/" render={() => <NavBar {...props} signout={signout} />} />
       <Route path="/" component={Home} exact />
-      <Route path="/register" component={Register} />
+      <Route path="/register" render={(props) => <Register {...props} funcionCookie={funcionCookie} />}  />
       <Route path="/login" render={(props) => <Login {...props} funcionCookie={funcionCookie} />} />
-      <Route path='/ppalLog' component={PpalLog} />
+      <Route path='/ppalLog' render={() => <PpalLog {...props} />}/>
       <Route path='/crearRuta' component={CrearRuta} />
       <Route path='/misCarros' render={(props) => <MisCarros {...props}  />} />
       
