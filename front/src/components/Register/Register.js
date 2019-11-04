@@ -8,6 +8,8 @@ function Register(props) {
 
   let history = useHistory();
   const backUrl = "http://localhost:3001";
+  const wsUrl = "wss://localhost:3001";
+  
 
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
@@ -51,6 +53,11 @@ const registrar = (e) => {
     }
     else {
       history.push("/ppalLog");
+      const temp = JSON.parse(props.cookies.cookies.wheelsUser);
+      const connection = new WebSocket(wsUrl);
+      connection.onopen = () => {
+        connection.send(temp.uid);
+      }
     }
   })();
 };

@@ -12,6 +12,8 @@ function Login(props) {
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);
 
+  const wsUrl = "wss://localhost:3001";
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log(correo);
@@ -39,6 +41,11 @@ function Login(props) {
       }
       else {
         history.push("/ppalLog");
+        const temp = JSON.parse(props.cookies.cookies.wheelsUser);
+        const connection = new WebSocket(wsUrl);
+        connection.onopen = () => {
+          connection.send(temp.uid);
+        }
       }
 
     })();
