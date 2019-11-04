@@ -15,7 +15,7 @@ import { withCookies, Cookies } from 'react-cookie';
 // 2: Register
 // 3: PpalLog
 
-function App() {
+function App(props) {
   const [vista, setVista] = useState(0);
 
   const [loggeado, setLoggeado] = useState(false);

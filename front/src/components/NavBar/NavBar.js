@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png'
 import './NavBar.css';
 import { useHistory } from "react-router-dom";
 
-function NavBar({ loggeado, vista }) {
+function NavBar(props ) {
 
 
   let history = useHistory();
@@ -24,12 +24,14 @@ function NavBar({ loggeado, vista }) {
     e.preventDefault();
     history.push("/");
   }
+  console.log(props);
+  
 
   return (
-    !loggeado ?
+    !props.loggeado ?
       <nav className="navbar navbar-light navbar-custom">
         <a onClick={irHome} className="navbar-brand">
-          Wheels
+         
           <img alt="logo" id="logo-brand" src={logo}></img>
         </a>
         <form className="form-inline">
@@ -39,9 +41,9 @@ function NavBar({ loggeado, vista }) {
       </nav>
       :
       <nav className="navbar navbar-light navbar-custom">
-        <a href="#" className="navbar-brand">
-          Wheels Uniandes
-          {/* <img alt="logo" id="logo-brand" src={logo}></img> */}
+        <a onClick={irHome} className="navbar-brand">
+          
+          <img alt="logo" id="logo-brand" src={logo}></img>
         </a>
         <form className="form-inline">
           <button className="btn my-2 my-sm-0 yellow" >Cerrar sesión</button>

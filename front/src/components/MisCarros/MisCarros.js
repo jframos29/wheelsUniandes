@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import './crearRuta.css';
+import './MisCarros.css';
 import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
 
-function CrearRuta() {
+function MisCarros() {
 
   const [placas, setPlacas] = useState('');
   const [color, setColor] = useState('');
@@ -20,25 +20,7 @@ function CrearRuta() {
     
   }
 
-  const backUrl = "http://localhost:3001";
-
-  const unirse = ()=>{
-    (async () => {
-      const user = this.props.cookies.get('wheels-user');
-
-      const req = await fetch(`${backUrl}/loQueQuieroHacer`, {
-        method:'POST',
-        body:{},
-        headers: {
-          'Authorization': `Bearer ${this.props.cookies.get('wheels-token')}`,
-          'user': JSON.stringify(user),
-          'Content-Type': 'application/json'
-        }
-      });
-      const rta = await req.json();
-      //usa la respuesta
-    })();
-  }
+  
 
   return (
     true ?
@@ -84,4 +66,4 @@ function CrearRuta() {
   );
 }
 
-export default CrearRuta;
+export default MisCarros;

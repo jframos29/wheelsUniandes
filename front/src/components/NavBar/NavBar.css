@@ -10,12 +10,19 @@
 }
 
 .yellow {
-  background-color: #fff200;
+  /* background-color: #fff200;
   color: #343a40;
   border-color: #beb501;
+  margin-right: 1rem; */
+  background-color: rgba(219,219,219);
+  color: #343a40;
+  border-color: #343a40;
   margin-right: 1rem;
 }
 .yellow:hover {
+  /* background-color: #343a40;
+  color: #fff200;
+  border-color: #343a40; */
   background-color: #343a40;
   color: #fff200;
   border-color: #343a40;
@@ -27,7 +34,10 @@
 
 
 .navbar-custom {
-  background-color:#fff200;
+  /* background-color:#fff200;
   background-image: none;
-  background-repeat: no-repeat;
- }
+  background-repeat: no-repeat; */
+  background: rgb(255,242,0);
+  background: linear-gradient(90deg, rgba(255,242,0,1) 0%, rgba(255,242,0,1) 35%, rgba(219,219,219,0.8645833333333334) 62%);
+}
+ 

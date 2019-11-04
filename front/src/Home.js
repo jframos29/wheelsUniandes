@@ -12,11 +12,9 @@ import Register from './components/Register/Register';
 
 
 function Home() {
-  const [vista, setVista] = useState(0);
-  const [loggeado, setLoggeado] =useState(false);
+
   
   return (
-    vista === 0 || !loggeado ?
       <div className="App">
         <div className="container">
           <div className="heading">
@@ -31,18 +29,6 @@ function Home() {
           </div>
         </div>
       </div>
-      :
-      vista === 1 ?
-      <div>
-        <Login></Login>
-      </div>
-        :
-        vista === 2 ?
-        <div>
-        <Register></Register>
-      </div>
-          :
-          <div>ERROR</div>
   );
 }
 
