@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import './crearRuta.css';
+import './MisCarros.css';
 import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
 
-function CrearRuta() {
+function MisCarros() {
 
   const [placas, setPlacas] = useState('');
   const [color, setColor] = useState('');
@@ -66,4 +66,4 @@ function CrearRuta() {
   );
 }
 
-export default CrearRuta;
+export default MisCarros;

@@ -1,11 +1,18 @@
 .yellow-black {
-    color: #fff200;
+    /* color: #fff200;
     background-color: #343a40;
+    border-color: #343a40;
+    margin-right: 1rem; */
+    color: #343a40;
+    background-color: rgba(219,219,219);
     border-color: #343a40;
     margin-right: 1rem;
 }
 .yellow-black:hover {
+    /* color: #343a40;
+    background-color: #fff200;
+    border-color: #fff200; */
     color: #343a40;
     background-color: #fff200;
-    border-color: #fff200;
+    border-color: #343a40;
 }

@@ -20,7 +20,7 @@ function App() {
   
   return (
     <Router>
-      <Route path="/" render={(props) => <NavBar {...props} loggeado={loggeado} vista={ vista} />}    />
+      <Route path="/" render={(props) => <NavBar loggeado={ loggeado} vista={ vista} />}    />
       <Route path="/" component={Home} exact />
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
