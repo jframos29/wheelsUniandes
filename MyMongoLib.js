@@ -1,8 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
 
-// const my = new MyMongoLib();
-// const my = MyMongoLib();
-
 const MyMongoLib = function() {
   const MyMongoLib = this || {};
 
@@ -53,7 +50,6 @@ const MyMongoLib = function() {
       });
     });
   };
-
   return MyMongoLib;
 };
 
