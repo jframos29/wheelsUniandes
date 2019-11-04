@@ -4,13 +4,16 @@ const collection_name = "auth";
 
 const validate = (req) => {
   const token = req.header("Authorization") && req.header("Authorization").substring("Bearer ".length);
-  const user = req.header("user") ? JSON.parse(req.header("user")) : null;
+  const user = req.header("user");
 
   return new Promise((resolve, reject) => {
     (async () => {
       if (user) {
         try {
-          const data = await execQuery(functions.getOne, collection_name, { utype: user.utype, uid: user.uid });
+          const userTemp = JSON.parse(user);
+          console.log(userTemp, userTemp.uid);
+          
+          const data = await execQuery(functions.getOne, collection_name, { uid: userTemp.uid });
           if (data.token === token) {
             resolve(true);
           } else {

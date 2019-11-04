@@ -43,7 +43,7 @@ function App(props) {
       <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} />} />
       <Route path='/ppalLog' render={() => <PpalLog {...props} />}/>
       <Route path='/crearRuta' component={CrearRuta} />
-      <Route path='/misCarros' render={(props) => <MisCarros {...props}  />} />
+      <Route path='/misCarros' render={() => <MisCarros {...props}  />} />
       
 
     </Router>

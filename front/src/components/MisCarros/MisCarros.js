@@ -5,7 +5,7 @@ import unirse from '../../assets/unirse.png';
 import crear from '../../assets/crear.png';
 import AñadirCarro from './AñadirCarro';
 
-function MisCarros() {
+function MisCarros(props) {
 
   const [agregar, setAgregar] = useState(false);
 
@@ -25,7 +25,7 @@ function MisCarros() {
           <div className=" col-md-2 col-lg-2"></div>
           <div className="col-sm-12 col-md-5 col-lg-5 ">
             {agregar ?
-              <AñadirCarro></AñadirCarro>
+              <AñadirCarro {...props}  />
               :
               <div className="App">
                 <div>

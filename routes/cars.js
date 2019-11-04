@@ -26,21 +26,25 @@ router.get("/:userId", function (req, res) {
   })();
 });
 
-router.post("/agregarCarro", function (req, res) {
+router.post("/agregarcarro", function (req, res) {
   (async () => {
+    console.log("buenas");
     const hasAuth = await authorized(req);
+    console.log(hasAuth);
     if (hasAuth) {
       const body = req.body;
+      console.log(body);
+      
       const userId = body.uid;
       const carro = body.carro;
       carro["uid"]=userId;
       try {
         await execQuery(functions.createOne, collection_name, carro);
         res.status(200);
-        res.send("OK");
+        res.send({msg:"OK"});
       } catch (error) {
         res.status(500);
-        res.send(error);
+        res.send({msg : error});
       }
     }
     else {
