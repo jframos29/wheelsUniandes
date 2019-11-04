@@ -10,14 +10,14 @@ router.get("/:userId", function (req, res) {
   (async () => {
     const hasAuth = await authorized(req);
     const user = req.header("user") ? JSON.parse(req.header("user")): null;
-    if (hasAuth && req.params.userId===user) {
+    if (hasAuth && req.params.userId===user.uid) {
       const userId = req.params.userId;
       try {
         const result = await execQuery(functions.get, collection_name, { "uid": userId });
         res.send(JSON.stringify(result));
       } catch (error) {
         res.status(500);
-        res.send(error);
+        res.send({msg : error});
       }
     }
     else {
@@ -34,7 +34,7 @@ router.post("/agregarcarro", function (req, res) {
     if (hasAuth) {
       const body = req.body;
       console.log(body);
-      
+
       const userId = body.uid;
       const carro = body.carro;
       carro["uid"]=userId;

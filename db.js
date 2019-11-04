@@ -52,7 +52,7 @@ const functions = {
 
       const csCursor = testCol.watch();
 
-      console.log("Listening to changes on mongo");
+      console.log("Listening to changes on "+collection+" collection");
       csCursor.on("change", data => {
         console.log("changed!", data);
         getDocs(client, collection).then(docs => cbk(JSON.stringify(docs)));
