@@ -31,8 +31,16 @@ router.post("/signup", (req, res, next) => {
   const password = tpassword.salt + tpassword.passwordHash;
 
   (async () => {
-    const data = await execQuery(functions.createOne, collection_name, { uid, password });
-    res.send(data);
+    const yaEsta = await execQuery(functions.getOne, collection_name, {uid});
+    if(yaEsta){
+      res.status(403);
+      res.send({msg:"User already exists"});
+    }
+    else{
+      await execQuery(functions.createOne, collection_name, { uid, password });
+      const token = sha512(genRandomString(16), "");
+      await execQuery(functions.replaceOne, collection_name_token, { uid }, { uid, token: token.passwordHash });
+      res.send({ token: token.passwordHash });}
   })();
 });
 
@@ -44,11 +52,9 @@ router.post("/signin", (req, res, next) => {
   (async () => {
     try {
       const data = await execQuery(functions.getOne, collection_name, { uid });
-
       if (data.password.slice(16) === tpassword.passwordHash) {
         const token = sha512(genRandomString(16), "");
         await execQuery(functions.replaceOne, collection_name_token, { uid }, { uid, token: token.passwordHash });
-        data.password = null;
         res.send({ token: token.passwordHash });
       } else {
         res.status(403);
