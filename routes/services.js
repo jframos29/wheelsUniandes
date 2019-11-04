@@ -120,7 +120,7 @@ router.post("/buscarServicio", function (req, res) {
       const body = req.body;
       const destination = body.fin;
       var resultados = [];
-      const result = await execQuery(functions.get, collection_name, { "terminado": false });
+      const result = await execQuery(functions.get, collection_name, { "comenzado":false,"terminado": false });
       for (let service in result) {
         const distancia = getKilometros(service.destination.lat, service.destination.lng, destination.lat, destination.lng);
         if (distancia <= 1) {
