@@ -7,7 +7,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
-
+var cors = require("cors");
 var app = express();
 
 // view engine setup
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "front/build")));
-
+app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth",authRouter);
 

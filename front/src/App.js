@@ -11,6 +11,7 @@ import CrearRuta from "./components/crearRuta/CrearRuta";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import MisCarros from "./components/MisCarros/MisCarros";
+import { useHistory } from "react-router-dom";
 // 0: Home
 // 1: InicioSesion
 // 2: Register
@@ -18,24 +19,26 @@ import MisCarros from "./components/MisCarros/MisCarros";
 
 function App(props) {
   const [vista, setVista] = useState(0);
-
   const [loggeado, setLoggeado] = useState(false);
 
   const funcionCookie = (cookie, user) => {
-    props.cookies.set('wheels-token', cookie, { path: '/' });
-    props.cookies.set('wheels-user', { "uid": user });
+    props.cookies.set('wheelsToken', cookie, { path: '/' });
+    props.cookies.set('wheelsUser', { "uid": user });
+    
+
   }
 
-  const signout = () => {
-    props.cookies.set('wheels-user', null);
-    props.cookies.set('wheels-token', null);
+  const signout = (e) => {
+    e.preventDefault();
+    props.cookies.set('wheelsUser', '');
+    props.cookies.set('wheelsToken', '');
   }
 
 
   return (
     <Router>
 
-      <Route path="/" render={() => <NavBar loggeado={loggeado} vista={vista} signout={signout} />} />
+      <Route path="/" render={() => <NavBar {...props} loggeado={loggeado} vista={vista} signout={signout} />} />
       <Route path="/" component={Home} exact />
       <Route path="/register" component={Register} />
       <Route path="/login" render={(props) => <Login {...props} funcionCookie={funcionCookie} />} />

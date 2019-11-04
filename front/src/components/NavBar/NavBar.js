@@ -24,11 +24,11 @@ function NavBar(props ) {
     e.preventDefault();
     history.push("/");
   }
-  console.log(props);
+
   
 
   return (
-    !props.loggeado ?
+    !props.cookies.cookies.wheelsUser || !props.cookies.cookies.wheelsToken  ?
       <nav className="navbar navbar-light navbar-custom">
         <a onClick={irHome} className="navbar-brand">
          
@@ -45,8 +45,8 @@ function NavBar(props ) {
           
           <img alt="logo" id="logo-brand" src={logo}></img>
         </a>
-        <form className="form-inline">
-          <button className="btn my-2 my-sm-0 yellow" >Cerrar sesión</button>
+        <form className="form-inline" onSubmit={props.signout}>
+          <button type="submit" className="btn my-2 my-sm-0 yellow" >Cerrar sesión</button>
         </form>
       </nav>
   );

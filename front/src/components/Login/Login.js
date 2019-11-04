@@ -15,8 +15,9 @@ function Login(props) {
     console.log(pw);
   }
 
-  const iniciarSesion = () => {
+  const iniciarSesion = (e) => {
     (async () => {
+      e.preventDefault();
       const data = {
         uid: correo,
         password: pw
@@ -27,7 +28,9 @@ function Login(props) {
         headers: { 'Content-Type': 'application/json' }
       });
       const rta = await req.json();
-      props.funcionCookies(rta.token, correo);
+      console.log(props);
+      
+      props.funcionCookie(rta.token, correo);
     })();
   };
 
@@ -40,7 +43,7 @@ function Login(props) {
             <div className="row">
               <div className="col-sm-2 col-md-2 col-lg-3"></div>
               <div className="col-sm-8 col-md-8 col-lg-6">
-                <form className="form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={iniciarSesion}>
                   <div className="form-group">
                     <label htmlFor="correo">Correo electrónico</label>
                     <input type="email" className="form-control" id="correo" onChange={e => setCorreo(e.target.value)} placeholder="Ingresa tu correo" />
@@ -49,7 +52,7 @@ function Login(props) {
                     <label htmlFor="pw">Contraseña</label>
                     <input type="password" className="form-control" id="pw" onChange={e => setPw(e.target.value)} placeholder="Contraseña" />
                   </div>
-                  <button type="submit" className="btn yellow-black" login={iniciarSesion} >Inicia sesión</button>
+                  <button type="submit" className="btn yellow-black">Inicia sesión</button>
                 </form>
               </div>
               <div className="col-sm-2 col-md-2 col-lg-3"></div>

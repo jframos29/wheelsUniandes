@@ -24,13 +24,13 @@ function CrearRuta() {
 
   const unirse = ()=>{
     (async () => {
-      const user = this.props.cookies.get('wheels-user');
+      const user = this.props.cookies.get('wheelsUser');
 
       const req = await fetch(`${backUrl}/loQueQuieroHacer`, {
         method:'POST',
         body:{},
         headers: {
-          'Authorization': `Bearer ${this.props.cookies.get('wheels-token')}`,
+          'Authorization': `Bearer ${this.props.cookies.get('wheelsToken')}`,
           'user': JSON.stringify(user),
           'Content-Type': 'application/json'
         }
