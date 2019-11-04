@@ -20,10 +20,15 @@ function NavBar({ loggeado, vista }) {
     history.push("/login");
   }
 
+  function irHome(e) {
+    e.preventDefault();
+    history.push("/");
+  }
+
   return (
     !loggeado ?
       <nav className="navbar navbar-light navbar-custom">
-        <a href="#" className="navbar-brand">
+        <a onClick={irHome} className="navbar-brand">
           Wheels
           <img alt="logo" id="logo-brand" src={logo}></img>
         </a>

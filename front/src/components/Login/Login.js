@@ -14,7 +14,7 @@ function Login() {
   return (
     true ?
 <div className="App">
-          <div className="container">
+          <div className="container heading">
             <h2>Inicio sesión</h2>
             <div className="heading">
               <div className="row">

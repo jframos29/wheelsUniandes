@@ -3,7 +3,7 @@ const MongoClient = require("mongodb").MongoClient;
 // const my = new MyMongoLib();
 // const my = MyMongoLib();
 
-const MyMongoLib = function () {
+const MyMongoLib = function() {
   const MyMongoLib = this || {};
 
   // Connection URL

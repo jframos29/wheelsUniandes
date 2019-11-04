@@ -7,6 +7,6 @@ const googleMapsClient = require("@google/maps").createClient({
 });
 
 
-export const directions = (inicio, fin, waypoints) => {
+const directions = (inicio, fin, waypoints) => {
   return googleMapsClient.directions({}).asPromise();
 };

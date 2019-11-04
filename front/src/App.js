@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Register from './components/Register/Register';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import PpalLog from "./components/PpalLog/PpalLog";
+import CrearRuta from "./components/crearRuta/CrearRuta";
 // 0: Home
 // 1: InicioSesion
 // 2: Register
@@ -24,6 +25,7 @@ function App() {
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path='/ppalLog' component={PpalLog} />
+      <Route path='/crearRuta' component={CrearRuta} />
       
     </Router>
    

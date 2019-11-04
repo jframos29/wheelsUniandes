@@ -20,4 +20,9 @@ router.get("/data", (req, res) => {
     .catch(err => res.send({ err: true, msg: err }));
 });
 
+router.post("/", (req,res)=>{
+  req.body;
+
+});
+
 module.exports = router;
