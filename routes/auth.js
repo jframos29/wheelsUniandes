@@ -27,30 +27,27 @@ router.post("/signup", (req, res, next) => {
 
   const salt = genRandomString(16);
   const tpassword = sha512(body.password, salt);
-  const utype = body.utype;
   const uid = body.uid;
   const password = tpassword.salt + tpassword.passwordHash;
 
   (async () => {
-    const data = await execQuery(functions.createOne, collection_name, { utype, uid, password });
+    const data = await execQuery(functions.createOne, collection_name, { uid, password });
     res.send(data);
   })();
 });
 
 router.post("/signin", (req, res, next) => {
   const body = req.body;
-
-  const utype = body.utype;
   const uid = +body.uid;
   const tpassword = sha512(body.password, "");
 
   (async () => {
     try {
-      const data = await execQuery(functions.getOne, collection_name, { utype, uid });
+      const data = await execQuery(functions.getOne, collection_name, { uid });
 
       if (data.password.slice(16) === tpassword.passwordHash) {
         const token = sha512(genRandomString(16), "");
-        await execQuery(functions.replaceOne, collection_name_token, { utype, uid }, { utype, uid, token: token.passwordHash });
+        await execQuery(functions.replaceOne, collection_name_token, { uid }, { uid, token: token.passwordHash });
         data.password = null;
         res.send({ token: token.passwordHash });
       } else {
