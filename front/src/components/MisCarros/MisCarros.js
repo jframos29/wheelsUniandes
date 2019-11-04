@@ -19,7 +19,7 @@ function MisCarros(props) {
       <div className="container heading">
         <div className="row">
           <div className="col-sm-12 col-md-5 col-lg-5">
-            <h1>Tus carros </h1>
+            <h1>Tus carros, {props.allCookies.wheelsUser.uid} </h1>
             {props.carros.length > 0 ?
               props.carros
                 .map((element) => {

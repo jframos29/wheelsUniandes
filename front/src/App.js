@@ -11,6 +11,7 @@ import CrearRuta from "./components/crearRuta/CrearRuta";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import MisCarros from "./components/MisCarros/MisCarros";
+import RutasDisponibles from "./components/RutasDisponibles/RutasDisponibles";
 // 0: Home
 // 1: InicioSesion
 // 2: Register
@@ -21,6 +22,7 @@ function App(props) {
   const [wsConnection, setConnection] = useState(null);
   const [carros, setCarros] = useState([]);
 
+  const backUrl = "http://localhost:3001";
   const wsUrl = "ws://localhost:3001/";
 
   const funcionCookie = (cookie, user) => {
@@ -35,6 +37,23 @@ function App(props) {
     props.cookies.set('wheelsToken', '');
   }
 
+  const consultarCarros = (user, token) => {
+    (async () => {
+      const req = await fetch(`${backUrl}/cars/${user.uid}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'user': JSON.stringify(user),
+          'Content-Type': 'application/json'
+        }
+      });
+      const rta = await req.json();
+      console.log(rta);
+      setCarros(rta);
+      
+    })();
+  };
+  
   const wsConn = () => {
     const temp = JSON.parse(props.cookies.cookies.wheelsUser);
     const connection = new WebSocket(wsUrl);
@@ -49,7 +68,7 @@ function App(props) {
         const jsonData = JSON.parse(data);
         console.log(jsonData);
         for(let i=0; i<jsonData.length; i++) {
-          
+
         }
         setCarros(jsonData);
       }
@@ -63,8 +82,10 @@ function App(props) {
     };
 
     setConnection(connection);
+    const userId = JSON.parse(props.cookies.cookies.wheelsUser);
+    const token =props.cookies.cookies.wheelsToken;
+    consultarCarros(userId, token);
   }
-
 
   return (
     <Router>
@@ -74,8 +95,9 @@ function App(props) {
       <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} wsConn ={wsConn} />}  />
       <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} wsConn ={wsConn} />} />
       <Route path='/ppalLog' render={() => <PpalLog {...props} />}/>
-      <Route path='/crearRuta' component={CrearRuta} />
+      <Route path='/crearRuta' render={() => <CrearRuta {...props} carros={carros} />} />
       <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros}  />} />
+      <Route path='/rutasDisponibles' render={() => <RutasDisponibles {...props} carros={carros}  />} />
       
 
     </Router>

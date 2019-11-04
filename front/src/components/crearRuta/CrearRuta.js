@@ -4,7 +4,7 @@ import './crearRuta.css';
 import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
 
-function CrearRuta() {
+function CrearRuta(props) {
 
   const [placas, setPlacas] = useState('');
   const [color, setColor] = useState('');
@@ -44,7 +44,7 @@ function CrearRuta() {
     true ?
       <div className="App">
         <div className="container heading">
-          <h1>Crea una nueva ruta usuario </h1>
+          <h1>Crea una nueva ruta, {props.allCookies.wheelsUser.uid} </h1>
           <div className="row">
             <div className="col-sm-2 col-md-2 col-lg-3"></div>
             <div className="col-sm-8 col-md-8 col-lg-6">
@@ -66,7 +66,17 @@ function CrearRuta() {
                   <label htmlFor="carro">Elige el carro de esta ruta</label>
                   <select className="form-control" id="carro" placeholder="Elige el carro">
                     <option>Elige uno de tus carros</option>
-                    <option value="bla">bla</option>
+                    {props.carros && props.carros.length > 0 ?
+              props.carros
+                .map((element) => {
+                  return <option value={element.placas}>
+                    {element.marca} {element.linea} de placas {element.placas}
+                  </option>
+                })
+              :
+              <div></div>
+              // <option disabled>Agrega algún carro</option>
+            }
                   </select>
                 </div>
                 <button type="submit" className="btn yellow-black">Crear ruta</button>
@@ -81,3 +91,4 @@ function CrearRuta() {
 }
 
 export default CrearRuta;
+
