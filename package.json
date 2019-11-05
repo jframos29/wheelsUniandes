@@ -4,8 +4,6 @@
   "private": true,
   "scripts": {
     "build": "concurrently \"cd front && yarn build\" \"yarn build\"",
-    "heroku-postbuild": "yarn build",
-    "install": "(yarn)",
     "start": "concurrently \"cd front && yarn start\" \"PORT=5000 yarn start\""
   },
   "dependencies": {
