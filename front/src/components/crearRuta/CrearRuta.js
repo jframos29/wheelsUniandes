@@ -9,9 +9,6 @@ import Flatpickr from "react-flatpickr";
 
 function CrearRuta(props) {
 
-  const [placas, setPlacas] = useState('');
-  const [color, setColor] = useState('');
-  const [cupos, setCupos] = useState(0);
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
   const [hora, setHora] = useState('');
@@ -20,6 +17,8 @@ function CrearRuta(props) {
   const [latDestino, setLatDestino] = useState(0);
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
+  const [fechaHora, setFechaHora] = useState(new Date());
+  
 
   let history = useHistory();
   const dotenv = require("dotenv");
@@ -42,22 +41,18 @@ function CrearRuta(props) {
     width: '100%',
     height: '100%'
   }
-  const formatDate = date => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  };
 
   function enviarRuta() {
     alert("wujuu");
     // /services/crearServicio
     crearServicio();
   }
-  const actual = formatDate(new Date());
 
   const crearServicio = () => {
     (async () => {
       const user = props.cookies.get('wheelsUser');
-      const body = JSON.stringify({
-        "usuarios": [],
+      const bodyService = JSON.stringify({
+        "usuarios": [user.uid],
         "waypoints": [],
         "initial": {
           "lat": latOrigen,
@@ -69,11 +64,11 @@ function CrearRuta(props) {
         },
         "comenzado": false,
         "terminado": false,
-        "departureTime": null
+        "departureTime": fechaHora
       });
       const req = await fetch(`${backUrl}/services/crearServicio`, {
         method: 'POST',
-        body: body,
+        body: bodyService,
         headers: {
           'Authorization': `Bearer ${props.cookies.get('wheelsToken')}`,
           'user': JSON.stringify(user),
@@ -82,6 +77,9 @@ function CrearRuta(props) {
       });
       const rta = await req.json();
       console.log(rta);
+      if(rta.msg==='OK') {
+        history.push('ppalLog');
+      }
     })();
   }
 
@@ -166,8 +164,8 @@ function CrearRuta(props) {
                   <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa cuál es tu destino" />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="hora">Hora de salida</label>
-                  <input required type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" className="form-control" id="hora" onChange={e => setHora(e.target.value)} placeholder="Ingresa a qué hora sales Ej. 14:00" />
+                  <label htmlFor="hora">Fecha y hora de salida</label>
+                  <input required type="text"  pattern="(\d{1,2}/\d{1,2}/\d{4})[-]([01]?[0-9]|2[0-3]):[0-5][0-9]" className="form-control" id="hora" onChange={e => setFechaHora(e.target.value)} placeholder="Ingresa fecha y hora de salida Ej. 10/10/2019-14:00" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="carro">Elige el carro de esta ruta</label>

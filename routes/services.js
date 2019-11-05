@@ -23,9 +23,8 @@ router.post("/crearServicio", function (req, res) {
     const hasAuth = await authorized(req);
     if (hasAuth) {
       const body = req.body;
-      const service = body.service;
       try {
-        await execQuery(functions.createOne, collection_name, service);
+        await execQuery(functions.createOne, collection_name, body);
         res.status(200);
         res.send({ msg: "OK" });
       } catch (error) {
@@ -118,13 +117,19 @@ router.post("/buscarServicio", function (req, res) {
     const hasAuth = await authorized(req);
     if (hasAuth) {
       const body = req.body;
+      console.log(body);
       const destination = body.fin;
+      const initial = body.inicio;
       var resultados = [];
       const result = await execQuery(functions.get, collection_name, { "comenzado":false,"terminado": false });
+
+      
       for (let service in result) {
-        const distancia = getKilometros(service.destination.lat, service.destination.lng, destination.lat, destination.lng);
-        if (distancia <= 1) {
-          resultados.push(service);
+        console.log(result[service], result[service].destination);
+        const distanciaDestination = getKilometros(result[service].destination.lat, result[service].destination.lng, destination.lat, destination.lng);
+        const distanciaInitial = getKilometros(result[service].initial.lat, result[service].initial.lng, initial.lat, initial.lng);
+        if (distanciaDestination <= 1 && distanciaInitial <= 0.5) {
+          resultados.push(result[service]);
         }
       }
       res.send(JSON.stringify(resultados));
