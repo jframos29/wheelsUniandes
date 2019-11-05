@@ -4,6 +4,7 @@ import './PpalLog.css';
 import unirse from '../../assets/unirse.png';
 import crear from '../../assets/crear.png';
 import { useHistory } from "react-router-dom";
+import { func } from 'prop-types';
 
 function PpalLog(props) {
 
@@ -23,7 +24,6 @@ function PpalLog(props) {
   function handleSubmit(e) {
 
     e.preventDefault();
-    console.log(origen, destino)
     confirmarServicio();
   }
 
@@ -45,7 +45,6 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
 
 
       const tempO = rta.resultadoInicio.results[0].geometry.location;
@@ -57,8 +56,6 @@ function PpalLog(props) {
 
   const consultarServicios = (latOrigen, lonOrigen, latDestino, lonDestino) => {
     (async () => {
-      console.log("origen", latOrigen, lonOrigen);
-      console.log("destino", latDestino, lonDestino);
       const user = props.cookies.get('wheelsUser');
       const bodyService = JSON.stringify({
         "fin": {
@@ -80,7 +77,6 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
       setLista(rta);
       // history.push('/rutasDisponibles');
 
@@ -90,6 +86,41 @@ function PpalLog(props) {
   function preguntarDestino() {
     setPregDestino(true);
   }
+
+  const unirseRuta = (bodyParam) => {
+    (async () => {
+
+      const user = props.cookies.get('wheelsUser');
+      const bodyService = JSON.stringify(bodyParam);
+      const req = await fetch(`${backUrl}/services/unirseServicio`, {
+        method: 'POST',
+        body: bodyService,
+        headers: {
+          'Authorization': `Bearer ${props.cookies.get('wheelsToken')}`,
+          'user': JSON.stringify(user),
+          'Content-Type': 'application/json'
+        }
+      });
+      const rta = await req.json();
+      // history.push('/rutasDisponibles');
+
+    })();
+  }
+
+
+
+  function reservar(bodyParam) {
+    const newBody = 
+      {
+        "uid":props.allCookies.wheelsUser.uid,
+        "idService" : bodyParam._id,
+        "destino" : bodyParam.destination
+      }
+      unirseRuta(newBody);
+  }
+
+
+
 
   return (
     props.cookies.cookies.wheelsToken ?
@@ -122,8 +153,9 @@ function PpalLog(props) {
                 <h2>Rutas disponibles</h2>
                 {lista
                 .map((element) => {
-                          return <div style={{marginBottom: 1.5 + 'rem'}}>
-                            <button className="btn yellow">Reservar</button>servicio el {element.departureTime} por {element.usuarios[0]}
+                          const param = element;
+                          return <div key={element._id} style={{marginBottom: 1.5 + 'rem'}}>
+                            <button onClick={() => reservar(param)} className="btn yellow">Reservar</button>servicio el {element.departureTime} por {element.usuarios[0]}
                           </div>
                         })
                       // <option disabled>Agrega algún carro</option>
