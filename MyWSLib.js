@@ -31,7 +31,7 @@ const MyWSLib = function () {
     console.log(clients);
     console.log("---------------------------");
     console.log(Object.keys(clients));
-    
+
     Object.keys(clients).forEach(function(user) {
       console.log(user, clients[user], i);
       clients[user].send("services#"+JSON.stringify(data));

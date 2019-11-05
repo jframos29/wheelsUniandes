@@ -14,7 +14,7 @@ function PpalLog(props) {
   const [lista, setLista] = useState([]);
 
 
-  const backUrl = "http://localhost:5000";
+  const backUrl = "http://wheelsuniandes.herokuapp.com/";
 
   let history = useHistory();
   function crearRuta() {
@@ -110,7 +110,7 @@ function PpalLog(props) {
 
 
   function reservar(bodyParam) {
-    const newBody = 
+    const newBody =
       {
         "uid":props.allCookies.wheelsUser.uid,
         "idService" : bodyParam._id,
