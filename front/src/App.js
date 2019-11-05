@@ -22,8 +22,8 @@ function App(props) {
   const [wsConnection, setConnection] = useState(null);
   const [carros, setCarros] = useState([]);
 
-  const backUrl = "http://localhost:5000";
-  const wsUrl = "ws://localhost:5000/";
+  const backUrl = "http://localhost";
+  const wsUrl = "ws://localhost/";
 
   const funcionCookie = (cookie, user) => {
     props.cookies.set('wheelsToken', cookie, { path: '/' });

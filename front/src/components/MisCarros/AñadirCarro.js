@@ -13,7 +13,7 @@ function AñadirCarro(props) {
   const [color, setColor] = useState('');
   const [cupos, setCupos] = useState(0);
 
-  const backUrl = "http://localhost:5000";
+  const backUrl = "http://localhost";
   const actualUser = JSON.parse(props.cookies.cookies.wheelsUser).uid;
   const body = {
     "uid":actualUser,

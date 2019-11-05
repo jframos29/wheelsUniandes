@@ -35,7 +35,7 @@ function CrearRuta(props) {
   function repetirProceso() {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
-  const backUrl = "http://localhost:5000";
+  const backUrl = "http://localhost";
 
   const style = {
     width: '100%',
