@@ -48,7 +48,7 @@ function CrearRuta(props) {
 
   function enviarRuta1() {
     setConfirmacion1(true);
-    console.log(confirmacion1);
+    console.log(confirmacion1);//quitar logs cuando ya están seguros de que funciona
     console.log(confirmacion2);
     if(confirmacion1 && confirmacion2){
       crearServicio();
