@@ -1,5 +1,5 @@
 {
-  "name": "nodeexpressreactive4",
+  "name": "back",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -20,7 +20,6 @@
     "express": "~4.16.1",
     "google-maps-react": "^2.0.2",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
     "mongodb": "^3.3.3",
     "morgan": "~1.9.1",
     "react-cookie": "^4.0.1",
@@ -30,6 +29,7 @@
   },
   "devDependencies": {
     "eslint": "^6.5.1",
+    "nodemon": "^1.19.2",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-react": "^7.16.0"
   }
