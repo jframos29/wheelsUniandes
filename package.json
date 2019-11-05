@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "heroku-postbuild": "cd front && yarn --production=false && yarn run build"
   },
   "dependencies": {
     "@google/maps": "^1.0.2",
