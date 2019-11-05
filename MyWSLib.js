@@ -3,7 +3,7 @@ const WebSocket = require("ws");
 const MyWSLib = function () {
   const MyWSLib = this || {};
   const clients = {};
-
+  const clients2 = [];
   MyWSLib.setupWS = server => {
 
     const wss = new WebSocket.Server({ server: server });
@@ -20,17 +20,28 @@ const MyWSLib = function () {
         }
         else {
           clients[message] = ws;
+          clients2.push(ws);
           console.log("Connection accepted", message);
         }
       });
     });
   };
   MyWSLib.notifyAll = data => {
-    console.log(data);
+    let i=0;
     console.log(clients);
-    for (let user in Object.keys(clients)) {
-      if(clients[user]){clients[user].send("services#"+JSON.stringify(data));}
-    }
+    console.log("---------------------------");
+    console.log(Object.keys(clients));
+    
+    Object.keys(clients).forEach(function(user) {
+      console.log(user, clients[user], i);
+      clients[user].send("services#"+JSON.stringify(data));
+    });
+
+    // for (let user of Object.keys(clients)) {
+    //   console.log(user, clients[user], i);
+    //   clients[user].send("services#"+JSON.stringify(data));
+    //   i++;
+    // }
   };
 
   MyWSLib.notifyChangeCar = data => {

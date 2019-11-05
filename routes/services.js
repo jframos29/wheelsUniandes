@@ -5,7 +5,7 @@ const authorized = require("../authorized");
 const { functionsGoogle } = require("../maps");
 
 const collection_name = "services";
-
+const ObjectId = require("mongodb").ObjectID;
 const getKilometros = (lat1, lon1, lat2, lon2) => {
   var rad = function (x) { return x * Math.PI / 180; };
   var R = 6378.137;
@@ -44,7 +44,8 @@ router.post("/unirseServicio", function (req, res) {
     const hasAuth = await authorized(req);
     if (hasAuth) {
       const body = req.body;
-      const idService = body.idService;
+      const idService = ObjectId(body.idService);
+      console.log(idService);
       const idUser = body.uid;
       const destino = body.destination;
       try {
@@ -230,5 +231,7 @@ router.post("/confirmarServicio", function (req, res) {
   })();
 
 });
+
+
 
 module.exports = router;

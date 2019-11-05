@@ -32,7 +32,6 @@ function Login(props) {
         headers: { 'Content-Type': 'application/json' }
       });
       const rta = await req.json();
-      console.log(rta);
       props.funcionCookie(rta.token, correo);
       if(props.cookies.cookies.wheelsToken==="" || props.cookies.cookies.wheelsToken==="undefined" ) {
         setError(true);
