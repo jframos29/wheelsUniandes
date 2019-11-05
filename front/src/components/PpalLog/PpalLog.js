@@ -13,7 +13,7 @@ function PpalLog(props) {
   const [lista, setLista] = useState([]);
 
 
-  const backUrl = "http://localhost";
+  const backUrl = "http://localhost:80";
 
   let history = useHistory();
   function crearRuta() {
