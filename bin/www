@@ -20,7 +20,7 @@ const myWSLib = MyWSLib();
 const port = normalizePort(process.env.PORT || "5000");
 app.set("port", port);
 
-app.listen(port, () => console.log(`Server is listening on port ${port}...`));
+console.log(port);
 
 /**
  * Create HTTP server.
