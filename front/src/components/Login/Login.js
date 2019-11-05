@@ -6,8 +6,8 @@ import { useHistory } from "react-router-dom";
 function Login(props) {
 
   let history = useHistory();
-  const backUrl = "http://localhost:3001";
-  const wsUrl = "ws://localhost:3001/";
+  const backUrl = "http://localhost:5000";
+  const wsUrl = "ws://localhost:5000/";
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);

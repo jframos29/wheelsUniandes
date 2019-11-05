@@ -7,16 +7,16 @@ function Register(props) {
 
 
   let history = useHistory();
-  const backUrl = "http://localhost:3001";
-  const wsUrl = "ws://localhost:3001/";
-  
+  const backUrl = "http://localhost:5000";
+  const wsUrl = "ws://localhost:5000/";
+
 
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
   const [error, setError] = useState(false);
   const [error2, setError2] = useState(false);
-  
+
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -82,7 +82,7 @@ const registrar = (e) => {
                     <input required type="password" className="form-control" id="pw-confirm" onChange={e => setPwConfirm(e.target.value)} placeholder="Confirma tu contraseña" />
                   </div>
                   {
-                    error2 ? 
+                    error2 ?
                     <div className="text-danger">Este usuario ya existe</div>
                     :
                     <div></div>
@@ -92,13 +92,13 @@ const registrar = (e) => {
                   :
                   <div></div>
                   }
-                  
+
                   <button type="submit" className="btn yellow-black">Regístrate</button>
                 </form>
                 </div>
                 <div className="col-sm-2 col-md-2 col-lg-3"></div>
               </div>
-              
+
             </div>
           </div>
         </div>
