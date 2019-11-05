@@ -23,6 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "front/build")));
+app.get("*", (req,res)=>{
+  res.sendFile(path.join(path.join(__dirname,"front/build"),"index.html"));
+});
 app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth",authRouter);
