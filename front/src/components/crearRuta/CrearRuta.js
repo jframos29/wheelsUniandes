@@ -17,7 +17,12 @@ function CrearRuta(props) {
   const [latDestino, setLatDestino] = useState(0);
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
+  const [confirmacion1, setConfirmacion1] = useState(false);
+  const [confirmacion2, setConfirmacion2] = useState(false);
   const [fechaHora, setFechaHora] = useState(new Date());
+  const [seleccionado, setSeleccionado] = useState(false);
+  const [cupos, setCupos] = useState(0);
+  const [cupoExtra, setCupoExtra] = useState(0);
 
 
   let history = useHistory();
@@ -26,33 +31,52 @@ function CrearRuta(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setConfirmacion(false);
-    console.log(origen, destino, hora);
-    confirmarServicio();
+    setSeleccionado(true);
   }
 
 
   function repetirProceso() {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
-  const backUrl = "http://localhost:80";
+  const backUrl = "http://localhost:5000";
 
   const style = {
     width: '100%',
     height: '100%'
   }
 
-  function enviarRuta() {
-    alert("wujuu");
-    // /services/crearServicio
-    crearServicio();
+
+  function enviarRuta1() {
+    setConfirmacion1(true);
+    console.log(confirmacion1);
+    console.log(confirmacion2);
+    if(confirmacion1 && confirmacion2){
+      crearServicio();
+    }
+    else{
+      alert("Por favor confirme el otro punto");
+    }
+  }
+
+  function enviarRuta2() {
+    setConfirmacion2(true);
+    console.log(confirmacion1);
+    console.log(confirmacion2);
+    if(confirmacion1 && confirmacion2){
+      crearServicio();
+    }
+    else{
+      alert("Por favor confirme el otro punto");
+    }
   }
 
   const crearServicio = () => {
     (async () => {
       const user = props.cookies.get('wheelsUser');
       const bodyService = JSON.stringify({
-        "usuarios": [user.uid],
+        "dueño":user.uid,
+        "cuposRestantes":cupos,
+        "usuarios": [],
         "waypoints": [],
         "initial": {
           "lat": latOrigen,
@@ -86,7 +110,11 @@ function CrearRuta(props) {
 
 
 
-
+  const nueva = ()=>{
+    setConfirmacion(false);
+    console.log(origen, destino, hora);
+    confirmarServicio();
+  }
 
 
   const confirmarServicio = () => {
@@ -169,13 +197,13 @@ function CrearRuta(props) {
                 </div>
                 <div className="form-group">
                   <label htmlFor="carro">Elige el carro de esta ruta</label>
-                  <select required className="form-control" id="carro" placeholder="Elige el carro">
+                  <select required className="form-control" id="carro" placeholder="Elige el carro" onChange={e => setCupoExtra(e.target.value)}>
                     <option>Elige uno de tus carros</option>
                     {props.carros && props.carros.length > 0 ?
                       props.carros
                         .map((element) => {
-                          return <option value={element.placas}>
-                            {element.marca} {element.linea} de placas {element.placas}
+                          return <option value={element.cupos}>
+                            {element.marca} {element.linea} de placas {element.placas} (Cupo maximo {element.cupos})
                           </option>
                         })
                       :
@@ -185,14 +213,15 @@ function CrearRuta(props) {
                   </select>
                 </div>
                 {/* <input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="datetime" readonly="readonly"/> */}
-                <button type="submit" className="btn yellow-black">Crear ruta</button>
+                <button onClick={nueva} className="btn yellow-black">Continuar Proceso</button>
+                {seleccionado?<div><input required type="number" min="1" max={""+cupoExtra} className="form-control" id="cupos" onChange={e => setCupos(e.target.value)} placeholder="Ingresa cantidad de cupos disponibles"/> <button type="submit" className="btn yellow-black">Crear ruta</button></div>:<div></div>}
               </form>
               {confirmacion ?
                 <div className="row maps heading">
                   <div className="col-6 origen">
                     ¿Es correcto el <i>origen</i>?
                     <br />
-                    <button onClick={enviarRuta} className="btn yellow">Sí</button>
+                    <button onClick={enviarRuta1} className="btn yellow">Sí</button>
                     <button onClick={repetirProceso} className="btn yellow">No</button>
 
                     <MapContainer
@@ -205,7 +234,7 @@ function CrearRuta(props) {
                   <div className="col-6 destino">
                     ¿Es correcto el <i>destino</i>?
                     <br />
-                    <button onClick={enviarRuta} className="btn yellow">Sí</button>
+                    <button onClick={enviarRuta2} className="btn yellow">Sí</button>
                     <button onClick={repetirProceso} className="btn yellow">No</button>
                     <MapContainer
                       lat={latDestino}

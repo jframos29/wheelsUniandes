@@ -21,9 +21,10 @@ import RutasDisponibles from "./components/RutasDisponibles/RutasDisponibles";
 function App(props) {
   const [wsConnection, setConnection] = useState(null);
   const [carros, setCarros] = useState([]);
+  const [servicios, setServicios] = useState([]);
 
-  const backUrl = "http://localhost:80";
-  const wsUrl = "ws://localhost:80/";
+  const backUrl = "http://localhost:5000";
+  const wsUrl = "ws://localhost:5000/";
 
   const funcionCookie = (cookie, user) => {
     props.cookies.set('wheelsToken', cookie, { path: '/' });
@@ -67,8 +68,14 @@ function App(props) {
         const jsonData = JSON.parse(data);
         setCarros(jsonData);
       }
-      else {
-       //TODO
+      else if(msg.data.includes("services#")) {
+        const data = msg.data.split("#")[1];
+        const jsonData = JSON.parse(data);
+        console.log(jsonData);
+        setServicios(jsonData);
+      }
+      else{
+        //TODO
       }
     };
 
@@ -88,7 +95,7 @@ function App(props) {
       <Route path="/" render={() => <NavBar {...props} signout={signout} wsConnection={wsConnection} />} />
       <Route path="/" component={Home} exact />
       <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} wsConn ={wsConn} />}  />
-      <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} wsConn ={wsConn} />} />
+      <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} signout={signout} wsConn ={wsConn} />} />
       <Route path='/ppalLog' render={() => <PpalLog {...props} />}/>
       <Route path='/crearRuta' render={() => <CrearRuta {...props} carros={carros} />} />
       <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros}  />} />

@@ -31,16 +31,17 @@ router.post("/signup", (req, res) => {
   const password = tpassword.salt + tpassword.passwordHash;
 
   (async () => {
-    const yaEsta = await execQuery(functions.getOne, collection_name, {uid});
-    if(yaEsta){
+    const yaEsta = await execQuery(functions.getOne, collection_name, { uid });
+    if (yaEsta) {
       res.status(403);
-      res.send({msg:"User already exists"});
+      res.send({ msg: "User already exists" });
     }
-    else{
+    else {
       await execQuery(functions.createOne, collection_name, { uid, password });
       const token = sha512(genRandomString(16), "");
       await execQuery(functions.replaceOne, collection_name_token, { uid }, { uid, token: token.passwordHash });
-      res.send({ token: token.passwordHash });}
+      res.send({ token: token.passwordHash });
+    }
   })();
 });
 
@@ -52,16 +53,23 @@ router.post("/signin", (req, res) => {
   (async () => {
     try {
       const data = await execQuery(functions.getOne, collection_name, { uid });
-      if (data.password.slice(16) === tpassword.passwordHash) {
-        const token = sha512(genRandomString(16), "");
-        await execQuery(functions.replaceOne, collection_name_token, { uid }, { uid, token: token.passwordHash });
-        res.send({ token: token.passwordHash });
-      } else {
+      if (data) {
+        if (data.password.slice(16) === tpassword.passwordHash) {
+          const token = sha512(genRandomString(16), "");
+          await execQuery(functions.replaceOne, collection_name_token, { uid }, { uid, token: token.passwordHash });
+          res.send({ token: token.passwordHash });
+        } else {
+          res.status(403);
+          res.send({ msg: "Wrong password" });
+        }
+      }
+      else{
         res.status(403);
-        res.send({ msg: "Wrong password" });
+        res.send({ msg: "The user does not exist" });
       }
     } catch (error) {
       res.status(403);
+      console.log(error);
       res.send({ msg: "Wrong user" });
     }
   })();

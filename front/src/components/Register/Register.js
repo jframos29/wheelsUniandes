@@ -7,8 +7,8 @@ function Register(props) {
 
 
   let history = useHistory();
-  const backUrl = "http://localhost:80";
-  const wsUrl = "ws://localhost:80/";
+  const backUrl = "http://localhost:5000";
+  const wsUrl = "ws://localhost:5000/";
 
 
   const [correo, setCorreo] = useState("");

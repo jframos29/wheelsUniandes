@@ -16,19 +16,20 @@ const MyWSLib = function () {
           const user = message.split(":")[1];
           console.log("cerremos");
           clients[user].close();
-
+          delete clients[user];
         }
         else {
           clients[message] = ws;
-
           console.log("Connection accepted", message);
         }
       });
     });
   };
   MyWSLib.notifyAll = data => {
-    for (let ws of clients) {
-      ws.send("services#"+JSON.stringify(data));
+    console.log(data);
+    console.log(clients);
+    for (let user in Object.keys(clients)) {
+      if(clients[user]){clients[user].send("services#"+JSON.stringify(data));}
     }
   };
 
