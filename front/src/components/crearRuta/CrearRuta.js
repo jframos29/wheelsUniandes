@@ -38,7 +38,7 @@ function CrearRuta(props) {
   function repetirProceso() {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
-  const backUrl = "https://wheelsuniandes.herokuapp.com/";
+  const backUrl = "https://wheelsuniandes.herokuapp.com";
 
   const style = {
     width: '100%',

@@ -13,12 +13,21 @@ var serviceRouter = require("./routes/services");
 
 var app = express();
 
-app.use(express.static(path.join(__dirname, "front/build")));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
+
+if (process.env.NODE_ENV === "production") {
+  // Exprees will serve up production assets
+  app.use(express.static("front/build"));
+
+  // Express serve up index.html file if it doesn't recognize route
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "front", "build", "index.html"));
+  });
+}
 
 app.use("/", indexRouter);
 app.use("/auth",authRouter);
