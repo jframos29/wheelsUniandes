@@ -14,7 +14,7 @@ function PpalLog(props) {
   const [lista, setLista] = useState([]);
 
 
-  const backUrl = "http://wheelsuniandes.herokuapp.com/";
+  const backUrl = "https://wheelsuniandes.herokuapp.com/";
 
   let history = useHistory();
   function crearRuta() {
