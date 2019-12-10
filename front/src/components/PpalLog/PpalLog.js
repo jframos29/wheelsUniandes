@@ -194,6 +194,7 @@ function PpalLog(props) {
               </div>
           </div>
         </div>
+
       </div>
       :
       <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br /> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
