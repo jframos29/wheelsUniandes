@@ -97,7 +97,7 @@ function App(props) {
       }
 
       connection.onmessage = (msg) => {
-        //console.log(msg);
+        console.log(msg);
         if (msg.data.includes("cars#")) {
           const data = msg.data.split("#")[1];
           const jsonData = JSON.parse(data);
