@@ -14,6 +14,7 @@ function MisCarros(props) {
   }
 
 
+  console.log(props.carros);
   return (
     props.cookies.cookies.wheelsToken ?
     <div className="App">
