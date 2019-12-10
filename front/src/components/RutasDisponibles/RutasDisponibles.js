@@ -15,6 +15,7 @@ function RutasDisponibles(props) {
           <div className="row">
             <div className="col-sm-2 col-md-2 col-lg-3"></div>
             <div className="col-sm-8 col-md-8 col-lg-6 heading">
+            S
               <p>Ruta #1</p>
               <p>Ruta #2</p>
               <p>Ruta #3</p>
