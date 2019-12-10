@@ -25,6 +25,7 @@ function App(props) {
   const [serviciosPropios, setServiciosPropios] = useState([]);
 
   const backUrl = "https://wheelsuniandes.herokuapp.com";
+  
   const wsUrl = "wss://wheelsuniandes.herokuapp.com";
 
   const funcionCookie = (cookie, user) => {
@@ -96,7 +97,7 @@ function App(props) {
       }
 
       connection.onmessage = (msg) => {
-        console.log(msg);
+        //console.log(msg);
         if (msg.data.includes("cars#")) {
           const data = msg.data.split("#")[1];
           const jsonData = JSON.parse(data);
@@ -120,7 +121,7 @@ function App(props) {
       };
 
       connection.onclose = () => {
-        console.log("Intento");
+      //  console.log("Intento");
         setTimeout(wsConn, 1000);
       };
       setConnection(connection);

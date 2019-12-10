@@ -28,12 +28,10 @@ function PpalLog(props) {
   },[])
 
   function handleSubmit(e) {
-
     e.preventDefault();
+   // console.log("entra")
     confirmarServicio();
   }
-
-
   const confirmarServicio = () => {
     (async () => {
       const user = props.cookies.get('wheelsUser');
@@ -51,14 +49,12 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
-
+     // console.log(rta);
       const tempO = rta.resultadoInicio.results[0].geometry.location;
       const tempD = rta.resultadoFin.results[0].geometry.location;
       consultarServicios(tempO.lat, tempO.lng, tempD.lat, tempD.lng, +(maxInicio), +(maxDestino));
     })();
-
   }
-
   const consultarServicios = (latOrigen, lonOrigen, latDestino, lonDestino, maxDistInicio, maxDistFinal) => {
     (async () => {
       const user = props.cookies.get('wheelsUser');
@@ -84,8 +80,8 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
+    //  console.log(rta);
       setLista(rta);
-      // history.push('/rutasDisponibles');
     })();
   }
 
@@ -109,10 +105,11 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
+   //   console.log(rta);
       // history.push('/rutasDisponibles');
 
     })();
+    alert("Te has unido a la ruta!")
   }
 
 
@@ -128,7 +125,6 @@ function PpalLog(props) {
   }
 
 
-  console.log(props.servicios);
   return (
     props.cookies.cookies.wheelsToken ?
       <div className="App">

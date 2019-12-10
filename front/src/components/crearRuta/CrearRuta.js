@@ -25,8 +25,8 @@ function CrearRuta(props) {
   const [latDestino, setLatDestino] = useState(0);
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
-  const [confirmacion1, setConfirmacion1] = useState(false);
-  const [confirmacion2, setConfirmacion2] = useState(false);
+  const confirmacion1 =false;
+  const confirmacion2 =false;
   const [fecha, setFecha] = useState('');
   const [seleccionado, setSeleccionado] = useState(false);
   const [cupos, setCupos] = useState(0);
@@ -58,9 +58,7 @@ function CrearRuta(props) {
 
 
   function enviarRuta1() {
-    setConfirmacion1(true);
-    console.log(confirmacion1);
-    console.log(confirmacion2);
+    confirmacion1 =true;
     if (confirmacion1 && confirmacion2) {
       crearServicio();
     }
@@ -70,14 +68,12 @@ function CrearRuta(props) {
   }
 
   function enviarRuta2() {
-    setConfirmacion2(true);
-    console.log(confirmacion1);
-    console.log(confirmacion2);
+    confirmacion2 =true;
     if (confirmacion1 && confirmacion2) {
       crearServicio();
     }
     else {
-      alert("Por favor confirme el otro punto");
+
     }
   }
 
