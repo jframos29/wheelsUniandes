@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './PpalLog.css';
 import unirse from '../../assets/unirse.png';
@@ -14,8 +14,6 @@ function PpalLog(props) {
   const [maxInicio, setMaxInicio] = useState('');
   const [maxDestino, setMaxDestino] = useState('');
   const [lista, setLista] = useState([]);
-  const [listaMisWheels, setListaMisWheels] = useState([]);
-
 
   const backUrl = "https://wheelsuniandes.herokuapp.com";
 
@@ -23,6 +21,11 @@ function PpalLog(props) {
   function crearRuta() {
     history.push("/crearRuta");
   }
+
+  useEffect (()=>{
+    props.funcionMisWheels(props.cookies.get('wheelsUser'),props.cookies.get('wheelsToken'));
+    props.funcionServicios(props.cookies.get('wheelsUser'),props.cookies.get('wheelsToken'));
+  },[])
 
   function handleSubmit(e) {
 
@@ -48,7 +51,6 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
 
       const tempO = rta.resultadoInicio.results[0].geometry.location;
       const tempD = rta.resultadoFin.results[0].geometry.location;
@@ -62,15 +64,15 @@ function PpalLog(props) {
       const user = props.cookies.get('wheelsUser');
       const bodyService = JSON.stringify({
         "fin": {
-          "lat":latDestino,
-          "lng":lonDestino
+          "lat": latDestino,
+          "lng": lonDestino
         },
         "inicio": {
-          "lat":latOrigen,
-          "lng":lonOrigen
+          "lat": latOrigen,
+          "lng": lonOrigen
         },
-        "maxDistInicio":maxDistInicio,
-        "maxDistFinal":maxDistFinal
+        "maxDistInicio": maxDistInicio,
+        "maxDistFinal": maxDistFinal
       });
       const req = await fetch(`${backUrl}/services/buscarServicio`, {
         method: 'POST',
@@ -87,25 +89,6 @@ function PpalLog(props) {
     })();
   }
 
-  const misWheels = ()=>{
-    ( async ()=>{
-    const user = JSON.stringify(props.cookies.get('wheelsUser'));
-    console.log("vamos a consultar")
-    const req = await fetch(`${backUrl}/services/misServicios`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${props.cookies.get('wheelsToken')}`,
-        'user': JSON.stringify(user),
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log("aja y?")
-    const rta = await req.json();
-    console.log(rta);
-    setListaMisWheels(rta);
-  })()
-  console.log(listaMisWheels)
-  };
 
   function preguntarDestino() {
     setPregDestino(true);
@@ -136,16 +119,13 @@ function PpalLog(props) {
 
   function reservar(bodyParam) {
     const newBody =
-      {
-        "uid":props.allCookies.wheelsUser.uid,
-        "idService" : bodyParam._id,
-        "destino" : bodyParam.destination
-      }
-      unirseRuta(newBody);
+    {
+      "uid": props.allCookies.wheelsUser.uid,
+      "idService": bodyParam._id,
+      "destino": bodyParam.destination
+    }
+    unirseRuta(newBody);
   }
-  misWheels();
-
-console.log(listaMisWheels);
 
   return (
     props.cookies.cookies.wheelsToken ?
@@ -159,57 +139,59 @@ console.log(listaMisWheels);
             </div>
             <div className="col">
               {
-                pregDestino && lista.length===0 ?
-                    <form className="form" onSubmit={handleSubmit}>
-                      <div className="form-group">
-                        <label htmlFor="origen">¿De dónde sales?</label>
-                        <input required type="text" className="form-control" id="origen" onChange={e => setOrigen(e.target.value)} placeholder="Ingresa el origen" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="destino">¿A dónde te diriges?</label>
-                        <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa tu destino" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="distInicio">Distancia de punto de origen en metros</label>
-                        <input required type="text" className="form-control" id="distInicio" onChange={e => setMaxInicio(e.target.value)} placeholder="Máxima distancia en metros de inicio" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="distDestino">Distancia de punto de destino en metros</label>
-                        <input required type="text" className="form-control" id="distDestino" onChange={e => setMaxDestino(e.target.value)} placeholder="Máxima distancia en metros de destino" />
-                      </div>
-                      <button type="submit" className="btn yellow-black">Buscar</button>
-                    </form>
-                    :
-                    pregDestino && lista.length>=0 ?
-                <div>
-                <h2>Rutas disponibles</h2>
-                {lista
-                .map((element) => {
+                pregDestino && lista.length === 0 ?
+                  <form className="form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label htmlFor="origen">¿De dónde sales?</label>
+                      <input required type="text" className="form-control" id="origen" onChange={e => setOrigen(e.target.value)} placeholder="Ingresa el origen" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="destino">¿A dónde te diriges?</label>
+                      <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa tu destino" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="distInicio">Distancia de punto de origen en metros</label>
+                      <input required type="text" className="form-control" id="distInicio" onChange={e => setMaxInicio(e.target.value)} placeholder="Máxima distancia en metros de inicio" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="distDestino">Distancia de punto de destino en metros</label>
+                      <input required type="text" className="form-control" id="distDestino" onChange={e => setMaxDestino(e.target.value)} placeholder="Máxima distancia en metros de destino" />
+                    </div>
+                    <button type="submit" className="btn yellow-black">Buscar</button>
+                  </form>
+                  :
+                  pregDestino && lista.length >= 0 ?
+                    <div>
+                      <h2>Rutas disponibles</h2>
+                      {lista
+                        .map((element) => {
                           //const param = element;
-                          console.log(element, element.servicio._id);
-                          return <div key={element.servicio._id} style={{marginBottom: 1.5 + 'rem'}}>
+                          return <div key={element.servicio._id} style={{ marginBottom: 1.5 + 'rem' }}>
                             <button onClick={() => reservar(element.servicio)} className="btn yellow">Reservar</button>servicio de {element.servicio.dueño}. Duración aproximada del viaje: {element.servicio.duracionAprox}
                           </div>
                         })
-                      // <option disabled>Agrega algún carro</option>
-                    }
-                </div>
-                :
-                <div>
-                  <button onClick={preguntarDestino} className="btn yellow-black">Unirse a ruta de Wheels</button>
-                  <img className="wheels" src={unirse} ></img>
-                </div>
+                        // <option disabled>Agrega algún carro</option>
+                      }
+                    </div>
+                    :
+                    <div>
+                      <button onClick={preguntarDestino} className="btn yellow-black">Unirse a ruta de Wheels</button>
+                      <img className="wheels" src={unirse} ></img>
+                    </div>
               }
             </div>
           </div>
           <div className="row heading">
-              <h2>Mis wheels</h2>
+            <h2>Mis wheels</h2>
+            {props.misWheels.map((element)=>{return <p>{element._id} //  </p>})}
+            <h2>Todos los servicios</h2>
+            {props.servicios.map((element)=>{return <p>{element._id}</p>})}
 
           </div>
         </div>
       </div>
       :
-      <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br/> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
+      <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br /> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
   );
 }
 

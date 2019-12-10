@@ -22,16 +22,48 @@ function App(props) {
   const [wsConnection, setConnection] = useState(null);
   const [carros, setCarros] = useState([]);
   const [servicios, setServicios] = useState([]);
+  const [serviciosPropios, setServiciosPropios] = useState([]);
 
   const backUrl = "https://wheelsuniandes.herokuapp.com";
   const wsUrl = "wss://wheelsuniandes.herokuapp.com";
-  var timerId = 0;
 
   const funcionCookie = (cookie, user) => {
     props.cookies.set('wheelsToken', cookie, { path: '/' });
     props.cookies.set('wheelsUser', { "uid": user });
 
   }
+
+  const misWheels = (user, token) => {
+    (async () => {
+      const req = await fetch(`${backUrl}/services/misServicios`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'user': JSON.stringify(user),
+          'Content-Type': 'application/json'
+        }
+      });
+      const rta = await req.json();
+      setServiciosPropios(rta);
+    })();
+  };
+
+
+  const todosWheels = (user, token) => {
+    (async () => {
+      const req = await fetch(`${backUrl}/services/todosServicios`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'user': JSON.stringify(user),
+          'Content-Type': 'application/json'
+        }
+      });
+      const rta = await req.json();
+      setServicios(rta);
+    })();
+  };
+
 
   const signout = (e) => {
     e.preventDefault();
@@ -64,6 +96,7 @@ function App(props) {
       }
 
       connection.onmessage = (msg) => {
+        console.log(msg);
         if (msg.data.includes("cars#")) {
           const data = msg.data.split("#")[1];
           const jsonData = JSON.parse(data);
@@ -72,8 +105,14 @@ function App(props) {
         else if (msg.data.includes("services#")) {
           const data = msg.data.split("#")[1];
           const jsonData = JSON.parse(data);
-          console.log(jsonData);
           setServicios(jsonData);
+          let results=[];
+          for(let ser of jsonData){
+            if(ser["dueño"]===JSON.parse(props.cookies.cookies.wheelsUser).uid){
+              results.push(ser);
+            }
+          }
+          setServiciosPropios(results);
         }
         else {
           //Nothing to do
@@ -81,11 +120,14 @@ function App(props) {
       };
 
       connection.onclose = () => {
+        console.log("Intento");
         setTimeout(wsConn, 1000);
       };
       setConnection(connection);
       const userId = JSON.parse(props.cookies.cookies.wheelsUser);
       const token = props.cookies.cookies.wheelsToken;
+      misWheels(userId, token);
+      todosWheels(userId, token);
       consultarCarros(userId, token);
     }
   }
@@ -97,7 +139,7 @@ function App(props) {
       <Route path="/" component={Home} exact />
       <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} wsConn={wsConn} />} />
       <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} signout={signout} wsConn={wsConn} />} />
-      <Route path='/ppalLog' render={() => <PpalLog {...props} />} />
+      <Route path='/ppalLog' render={() => <PpalLog {...props} misWheels={serviciosPropios} servicios={servicios} funcionMisWheels={misWheels} funcionServicios={todosWheels}/>} />
       <Route path='/crearRuta' render={() => <CrearRuta {...props} carros={carros} consultarCarros={consultarCarros}/>} />
       <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros} consultarCarros={consultarCarros} />} />
       <Route path='/rutasDisponibles' render={() => <RutasDisponibles {...props} carros={carros} />} />

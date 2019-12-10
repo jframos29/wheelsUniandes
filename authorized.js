@@ -11,7 +11,6 @@ const validate = (req) => {
       if (user) {
         try {
           const userTemp = JSON.parse(user);
-          console.log(userTemp, userTemp.uid);
           const data = await execQuery(functions.getOne, collection_name, { uid: userTemp.uid });
           if (data.token === token) {
             resolve(true);

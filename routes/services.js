@@ -65,7 +65,6 @@ router.post("/unirseServicio", function (req, res) {
     if (hasAuth) {
       const body = req.body;
       const idService = ObjectId(body.idService);
-      console.log(idService);
       const idUser = body.uid;
       const destino = body.destination;
       try {
@@ -139,7 +138,6 @@ router.post("/buscarServicio", function (req, res) {
     const hasAuth = await authorized(req);
     if (hasAuth) {
       const body = req.body;
-      console.log(body);
       const destination = body.fin;
       const initial = body.inicio;
       const maxDistInicio = body.maxDistInicio;
@@ -159,7 +157,7 @@ router.post("/buscarServicio", function (req, res) {
             break;
           }
         }
-        if (bandera) {
+        if (bandera==true) {
           for (let point of service.ruta) {
             distanciaDestination = getKilometros(point.lat, point.lng, destination.lat, destination.lng)*1000;
             if (distanciaDestination <= +(maxDistFinal)) {
@@ -223,7 +221,6 @@ router.get("/historialServicio/:userId", function (req, res) {
 router.post("/misServicios", function (req, res) {
   (async () => {
     const hasAuth = await authorized(req);
-    console.log("asdfgfas",hasAuth);
     if (hasAuth) {
       const user = JSON.parse(req.header("user"));
       var resultados = [];
@@ -232,7 +229,24 @@ router.post("/misServicios", function (req, res) {
         resultados.push(result[service]);
       }
       res.send(JSON.stringify(resultados));
-      console.log(resultados);
+    }
+    else {
+      res.sendStatus(403);
+    }
+  })();
+});
+
+
+router.post("/todosServicios", function (req, res) {
+  (async () => {
+    const hasAuth = await authorized(req);
+    if (hasAuth) {
+      var resultados = [];
+      const result = await execQuery(functions.get, collection_name, {});
+      for (let service in result) {
+        resultados.push(result[service]);
+      }
+      res.send(JSON.stringify(resultados));
     }
     else {
       res.sendStatus(403);
@@ -251,8 +265,6 @@ router.post("/confirmarMapa", function (req, res) {
       try {
         const resultadoInicio = await functionsGoogle.geocoding(direccionInicio);
         const resultadoFin = await functionsGoogle.geocoding(direccionFin);
-        console.log(resultadoInicio);
-        console.log(resultadoFin);
         res.status(200);
         res.send({
           "resultadoInicio": resultadoInicio.json,

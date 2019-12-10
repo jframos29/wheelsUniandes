@@ -118,7 +118,6 @@ function CrearRuta(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
       if (rta.msg === 'OK') {
         alert("Servicio creado satisfactoriamente!");
         history.push('ppalLog');
@@ -131,7 +130,6 @@ function CrearRuta(props) {
 
   const nueva = () => {
     setConfirmacion(false);
-    console.log(origen, destino, hora);
     confirmarServicio();
   }
 
@@ -153,19 +151,15 @@ function CrearRuta(props) {
         }
       });
       const rta = await req.json();
-      console.log(rta);
 
       const tempO = rta.resultadoInicio.results[0].geometry.location;
       const tempD = rta.resultadoFin.results[0].geometry.location;
 
-      console.log(tempO, tempD);
       setLatOrigen(tempO.lat);
       setLonOrigen(tempO.lng);
 
       setLatDestino(tempD.lat);
       setLonDestino(tempD.lng);
-      console.log("origen", latOrigen, lonOrigen);
-      console.log("destino", latDestino, lonDestino);
 
       setConfirmacion(true);
       if(rta=="200"){

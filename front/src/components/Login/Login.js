@@ -15,8 +15,6 @@ function Login(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(correo);
-    console.log(pw);
   }
 
   const iniciarSesion = (e) => {

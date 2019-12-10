@@ -32,16 +32,9 @@ const MyWSLib = function () {
 
 
   MyWSLib.notifyAll = data => {
-    let i = 0;
-    console.log(clients);
-    console.log("---------------------------");
-    console.log(Object.keys(clients));
-
     Object.keys(clients).forEach(function (user) {
-      console.log(user, clients[user], i);
       clients[user].send("services#" + JSON.stringify(data));
     });
-
     // for (let user of Object.keys(clients)) {
     //   console.log(user, clients[user], i);
     //   clients[user].send("services#"+JSON.stringify(data));
