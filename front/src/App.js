@@ -25,7 +25,7 @@ function App(props) {
   const [serviciosPropios, setServiciosPropios] = useState([]);
 
   const backUrl = "https://wheelsuniandes.herokuapp.com";
-  
+
   const wsUrl = "wss://wheelsuniandes.herokuapp.com";
 
   const funcionCookie = (cookie, user) => {

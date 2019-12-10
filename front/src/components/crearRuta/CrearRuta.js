@@ -25,8 +25,8 @@ function CrearRuta(props) {
   const [latDestino, setLatDestino] = useState(0);
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
-  const [confirmacion1, setConfirmacion1] =false;
-  const [confirmacion2, setConfirmacion2] =false;
+  const [confirmacion1, setConfirmacion1] =useState(false);
+  const [confirmacion2, setConfirmacion2] = useState(false);
   const [fecha, setFecha] = useState('');
   const [seleccionado, setSeleccionado] = useState(false);
   const [cupos, setCupos] = useState(0);
