@@ -25,8 +25,8 @@ function CrearRuta(props) {
   const [latDestino, setLatDestino] = useState(0);
   const [lonDestino, setLonDestino] = useState(0);
   const [confirmacion, setConfirmacion] = useState(false);
-  const confirmacion1 =false;
-  const confirmacion2 =false;
+  const [confirmacion1, setConfirmacion1] =false;
+  const [confirmacion2, setConfirmacion2] =false;
   const [fecha, setFecha] = useState('');
   const [seleccionado, setSeleccionado] = useState(false);
   const [cupos, setCupos] = useState(0);
@@ -58,7 +58,7 @@ function CrearRuta(props) {
 
 
   function enviarRuta1() {
-    confirmacion1 =true;
+    setConfirmacion1(true);
     if (confirmacion1 && confirmacion2) {
       crearServicio();
     }
@@ -68,7 +68,7 @@ function CrearRuta(props) {
   }
 
   function enviarRuta2() {
-    confirmacion2 =true;
+    setConfirmacion2(true);
     if (confirmacion1 && confirmacion2) {
       crearServicio();
     }
