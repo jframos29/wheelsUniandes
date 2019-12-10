@@ -13,7 +13,6 @@ function MisCarros(props) {
     setAgregar(true);
   }
 
-
   console.log(props.carros);
   return (
     props.cookies.cookies.wheelsToken ?
@@ -23,8 +22,7 @@ function MisCarros(props) {
           <div className="col-sm-12 col-md-5 col-lg-5">
             <h1>Tus carros, {props.allCookies.wheelsUser.uid} </h1>
             {props.carros.length > 0 ?
-              props.carros
-                .map((element) => {
+              props.carros.map((element) => {
                   return <p key={element.placas}>
                     {element.marca} {element.linea} de placas <strong>{element.placas}</strong>
                   </p>

@@ -50,7 +50,7 @@ function App(props) {
         }
       });
       console.log("Request Carros", req);
-      const rta = await req.text();
+      const rta = await req.json();
       console.log(rta);
       setCarros(rta);
     })();
