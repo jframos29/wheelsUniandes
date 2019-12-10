@@ -56,8 +56,27 @@ const functions = {
 
       console.log("Listening to changes on "+collection+" collection");
       csCursor.on("change", data => {
-        console.log(data);
+        console.log("changes",data);
         getDocs(client, collection).then(docs => cbk(JSON.stringify(docs)));
+      });
+    });
+  },
+
+  listenToChangesOnly(cbk, collection){
+    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+      if (err !== null) {
+        throw err;
+      }
+      console.log("Connected correctly to server");
+      const db = client.db(dbName);
+      const testCol = db.collection(collection);
+
+      const csCursor = testCol.watch();
+
+      console.log("Listening to changes on "+collection+" collection");
+      csCursor.on("change", data => {
+        console.log(data);
+        cbk(JSON.stringify(data));
       });
     });
   },
