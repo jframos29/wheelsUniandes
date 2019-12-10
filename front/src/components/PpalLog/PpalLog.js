@@ -74,6 +74,7 @@ function PpalLog(props) {
         "maxDistInicio": maxDistInicio,
         "maxDistFinal": maxDistFinal
       });
+      //Usar el proxy en vez de quemar la url del back.
       const req = await fetch(`${backUrl}/services/buscarServicio`, {
         method: 'POST',
         body: bodyService,
