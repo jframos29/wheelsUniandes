@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './MisCarros.css';
-import unirse from '../../assets/unirse.png'
-import crear from '../../assets/crear.png'
+import unirse from '../../assets/unirse.png';
+import crear from '../../assets/crear.png';
+import { useHistory } from "react-router-dom";
 
 function AñadirCarro(props) {
 
-
+  let history = useHistory();
   const [marca, setMarca] = useState('');
   const [linea, setLinea] = useState('');
   const [placas, setPlacas] = useState('');
   const [color, setColor] = useState('');
   const [cupos, setCupos] = useState(0);
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl = "https://wheelsuniandes.herokuapp.com/";
   const actualUser = JSON.parse(props.cookies.cookies.wheelsUser).uid;
   const body = {
     "uid":actualUser,
@@ -47,8 +48,8 @@ function AñadirCarro(props) {
   function handleSubmit(e) {
     e.preventDefault();
     crearCarro();
-
   }
+
   return (
     props.cookies.cookies.wheelsToken ?
     <form className="form " onSubmit={handleSubmit}>

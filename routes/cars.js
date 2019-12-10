@@ -15,6 +15,7 @@ router.get("/:userId", function (req, res) {
       const userId = req.params.userId;
       try {
         const result = await execQuery(functions.get, collection_name, { "uid": userId });
+        console.log(JSON.stringify(result));
         res.send(JSON.stringify(result));
       } catch (error) {
         res.status(500);

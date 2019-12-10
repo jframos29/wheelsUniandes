@@ -11,10 +11,13 @@ function PpalLog(props) {
   const [pregDestino, setPregDestino] = useState(false);
   const [destino, setDestino] = useState('');
   const [origen, setOrigen] = useState('');
+  const [maxInicio, setMaxInicio] = useState('');
+  const [maxDestino, setMaxDestino] = useState('');
   const [lista, setLista] = useState([]);
+  const [listaMisWheels, setListaMisWheels] = useState([]);
 
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl = "https://wheelsuniandes.herokuapp.com/";
 
   let history = useHistory();
   function crearRuta() {
@@ -35,7 +38,7 @@ function PpalLog(props) {
         "direccionInicio": origen,
         "direccionFin": destino
       });
-      const req = await fetch(`${backUrl}/services/confirmarServicio`, {
+      const req = await fetch(`${backUrl}/services/confirmarMapa`, {
         method: 'POST',
         body: body,
         headers: {
@@ -49,12 +52,12 @@ function PpalLog(props) {
 
       const tempO = rta.resultadoInicio.results[0].geometry.location;
       const tempD = rta.resultadoFin.results[0].geometry.location;
-      consultarServicios(tempO.lat, tempO.lng, tempD.lat, tempD.lng);
+      consultarServicios(tempO.lat, tempO.lng, tempD.lat, tempD.lng, +(maxInicio), +(maxDestino));
     })();
 
   }
 
-  const consultarServicios = (latOrigen, lonOrigen, latDestino, lonDestino) => {
+  const consultarServicios = (latOrigen, lonOrigen, latDestino, lonDestino, maxDistInicio, maxDistFinal) => {
     (async () => {
       const user = props.cookies.get('wheelsUser');
       const bodyService = JSON.stringify({
@@ -65,7 +68,9 @@ function PpalLog(props) {
         "inicio": {
           "lat":latOrigen,
           "lng":lonOrigen
-        }
+        },
+        "maxDistInicio":maxDistInicio,
+        "maxDistFinal":maxDistFinal
       });
       const req = await fetch(`${backUrl}/services/buscarServicio`, {
         method: 'POST',
@@ -79,9 +84,24 @@ function PpalLog(props) {
       const rta = await req.json();
       setLista(rta);
       // history.push('/rutasDisponibles');
-
     })();
   }
+
+  const misWheels = ()=>{
+    ( async ()=>{
+    const user = JSON.stringify(props.cookies.get('wheelsUser'));
+    const req = await fetch(`${backUrl}/services/misServicios`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${props.cookies.get('wheelsToken')}`,
+        'user': JSON.stringify(user),
+        'Content-Type': 'application/json'
+      }
+    });
+    const rta = await req.json();
+    setListaMisWheels(rta);
+  })()
+  };
 
   function preguntarDestino() {
     setPregDestino(true);
@@ -131,7 +151,6 @@ function PpalLog(props) {
             <div className="col">
               <button onClick={crearRuta} className="btn yellow-black">Crear ruta de Wheels</button>
               <img className="wheels" src={crear} ></img>
-
             </div>
             <div className="col">
               {
@@ -145,6 +164,14 @@ function PpalLog(props) {
                         <label htmlFor="destino">¿A dónde te diriges?</label>
                         <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa tu destino" />
                       </div>
+                      <div className="form-group">
+                        <label htmlFor="distInicio">Distancia de punto de origen en metros</label>
+                        <input required type="text" className="form-control" id="distInicio" onChange={e => setMaxInicio(e.target.value)} placeholder="Máxima distancia en metros de inicio" />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="distDestino">Distancia de punto de destino en metros</label>
+                        <input required type="text" className="form-control" id="distDestino" onChange={e => setMaxDestino(e.target.value)} placeholder="Máxima distancia en metros de destino" />
+                      </div>
                       <button type="submit" className="btn yellow-black">Buscar</button>
                     </form>
                     :
@@ -153,11 +180,12 @@ function PpalLog(props) {
                 <h2>Rutas disponibles</h2>
                 {lista
                 .map((element) => {
-                          const param = element;
+                          //const param = element;
+                          console.log(element);
                           return <div key={element._id} style={{marginBottom: 1.5 + 'rem'}}>
-                            <button onClick={() => reservar(param)} className="btn yellow">Reservar</button>servicio el {element.departureTime} por {element.usuarios[0]}
                           </div>
                         })
+                        //<button onClick={() => reservar(param)} className="btn yellow">Reservar</button>servicio el {element.departureTime} por {element.usuarios[0]}
                       // <option disabled>Agrega algún carro</option>
                     }
                 </div>
@@ -166,11 +194,12 @@ function PpalLog(props) {
                   <button onClick={preguntarDestino} className="btn yellow-black">Unirse a ruta de Wheels</button>
                   <img className="wheels" src={unirse} ></img>
                 </div>
-
               }
-
-
             </div>
+          </div>
+          <div className="row heading">
+              <h2>Mis wheels</h2>
+
           </div>
         </div>
       </div>

@@ -6,8 +6,8 @@ import { useHistory } from "react-router-dom";
 function Login(props) {
 
   let history = useHistory();
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
-  const wsUrl = "wss://wheelsuniandes.herokuapp.com";
+  const backUrl = "https://wheelsuniandes.herokuapp.com/";
+  const wsUrl = "wss://wheelsuniandes.herokuapp.com/";
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);

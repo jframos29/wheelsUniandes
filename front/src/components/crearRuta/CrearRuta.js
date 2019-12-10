@@ -9,6 +9,14 @@ import Flatpickr from "react-flatpickr";
 
 function CrearRuta(props) {
 
+
+  var today = new Date();
+  var anho = today.getFullYear();
+  var mes = `${today.getMonth() + 1}`.padStart(2, 0);
+  var dia = `${today.getDate()}`.padStart(2, 0);
+  var horaT = `${today.getHours()}`.padStart(2, 0);
+  var minutos = `${today.getMinutes()}`.padStart(2, 0);
+
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
   const [hora, setHora] = useState('');
@@ -19,7 +27,7 @@ function CrearRuta(props) {
   const [confirmacion, setConfirmacion] = useState(false);
   const [confirmacion1, setConfirmacion1] = useState(false);
   const [confirmacion2, setConfirmacion2] = useState(false);
-  const [fechaHora, setFechaHora] = useState(new Date());
+  const [fecha, setFecha] = useState('');
   const [seleccionado, setSeleccionado] = useState(false);
   const [cupos, setCupos] = useState(0);
   const [cupoExtra, setCupoExtra] = useState(0);
@@ -38,7 +46,7 @@ function CrearRuta(props) {
   function repetirProceso() {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl = "https://wheelsuniandes.herokuapp.com/";
 
   const style = {
     width: '100%',
@@ -50,10 +58,10 @@ function CrearRuta(props) {
     setConfirmacion1(true);
     console.log(confirmacion1);
     console.log(confirmacion2);
-    if(confirmacion1 && confirmacion2){
+    if (confirmacion1 && confirmacion2) {
       crearServicio();
     }
-    else{
+    else {
       alert("Por favor confirme el otro punto");
     }
   }
@@ -62,10 +70,10 @@ function CrearRuta(props) {
     setConfirmacion2(true);
     console.log(confirmacion1);
     console.log(confirmacion2);
-    if(confirmacion1 && confirmacion2){
+    if (confirmacion1 && confirmacion2) {
       crearServicio();
     }
-    else{
+    else {
       alert("Por favor confirme el otro punto");
     }
   }
@@ -73,11 +81,18 @@ function CrearRuta(props) {
   const crearServicio = () => {
     (async () => {
       const user = props.cookies.get('wheelsUser');
+      const fechaTotal = fecha + "T" + hora + ":00";
+      const fechita = new Date(fechaTotal);
+      const timestamp = Math.floor(fechita.getTime() / 1000);
       const bodyService = JSON.stringify({
-        "dueño":user.uid,
-        "cuposRestantes":cupos,
+        "dueño": user.uid,
+        "cuposRestantes": cupos,
         "usuarios": [],
-        "waypoints": [],
+        "ruta": [],
+        "duracionAprox":"",
+        "instrucciones":[],
+        "distancia":"",
+        "waypoints":[],
         "initial": {
           "lat": latOrigen,
           "lng": lonOrigen
@@ -88,7 +103,7 @@ function CrearRuta(props) {
         },
         "comenzado": false,
         "terminado": false,
-        "departureTime": fechaHora
+        "departureTime": timestamp
       });
       const req = await fetch(`${backUrl}/services/crearServicio`, {
         method: 'POST',
@@ -101,7 +116,8 @@ function CrearRuta(props) {
       });
       const rta = await req.json();
       console.log(rta);
-      if(rta.msg==='OK') {
+      if (rta.msg === 'OK') {
+        alert("Servicio creado satisfactoriamente!");
         history.push('ppalLog');
       }
     })();
@@ -110,7 +126,7 @@ function CrearRuta(props) {
 
 
 
-  const nueva = ()=>{
+  const nueva = () => {
     setConfirmacion(false);
     console.log(origen, destino, hora);
     confirmarServicio();
@@ -124,7 +140,7 @@ function CrearRuta(props) {
         "direccionInicio": origen,
         "direccionFin": destino
       });
-      const req = await fetch(`${backUrl}/services/confirmarServicio`, {
+      const req = await fetch(`${backUrl}/services/confirmarMapa`, {
         method: 'POST',
         body: body,
         headers: {
@@ -173,6 +189,7 @@ function CrearRuta(props) {
       //usa la respuesta
     })();
   }
+
   return (
     props.cookies.cookies.wheelsToken ?
       <div className="App">
@@ -192,8 +209,10 @@ function CrearRuta(props) {
                   <input required type="text" className="form-control" id="destino" onChange={e => setDestino(e.target.value)} placeholder="Ingresa cuál es tu destino" />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="hora">Fecha y hora de salida</label>
-                  <input required type="text"  pattern="(\d{1,2}/\d{1,2}/\d{4})[-]([01]?[0-9]|2[0-3]):[0-5][0-9]" className="form-control" id="hora" onChange={e => setFechaHora(e.target.value)} placeholder="Ingresa fecha y hora de salida Ej. 10/10/2019-14:00" />
+                  <label htmlFor="fecha">Fecha de salida</label>
+                  <input type="date" className="from-control" id="fecha" name="trip-start" min={anho + "-" + mes + "-" + dia} max="2025-12-31" onChange={e => setFecha(e.target.value)}></input>
+                  <label htmlFor="hora">Hora de salida</label>
+                  <input type="time" id="hora" name="appt" min={horaT + ":" + minutos} max="23:59" onChange={e => setHora(e.target.value)} required></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="carro">Elige el carro de esta ruta</label>
@@ -214,7 +233,7 @@ function CrearRuta(props) {
                 </div>
                 {/* <input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="datetime" readonly="readonly"/> */}
                 <button onClick={nueva} className="btn yellow-black">Continuar Proceso</button>
-                {seleccionado?<div><input required type="number" min="1" max={""+cupoExtra} className="form-control" id="cupos" onChange={e => setCupos(e.target.value)} placeholder="Ingresa cantidad de cupos disponibles"/> <button type="submit" className="btn yellow-black">Crear ruta</button></div>:<div></div>}
+                {seleccionado ? <div><input required type="number" min="1" max={"" + cupoExtra} className="form-control" id="cupos" onChange={e => setCupos(e.target.value)} placeholder="Ingresa cantidad de cupos disponibles" /> <button type="submit" className="btn yellow-black">Crear ruta</button></div> : <div></div>}
               </form>
               {confirmacion ?
                 <div className="row maps heading">

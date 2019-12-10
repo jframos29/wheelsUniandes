@@ -23,7 +23,7 @@ function App(props) {
   const [carros, setCarros] = useState([]);
   const [servicios, setServicios] = useState([]);
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl = "https://wheelsuniandes.herokuapp.com/";
   const wsUrl = "wss://wheelsuniandes.herokuapp.com";
 
   const funcionCookie = (cookie, user) => {
@@ -39,6 +39,7 @@ function App(props) {
   }
 
   const consultarCarros = (user, token) => {
+    console.log("Hola", user);
     (async () => {
       const req = await fetch(`${backUrl}/cars/${user.uid}`, {
         method: 'GET',
@@ -48,6 +49,7 @@ function App(props) {
           'Content-Type': 'application/json'
         }
       });
+      console.log("Request Carros", req);
       const rta = await req.json();
       console.log(rta);
       setCarros(rta);
