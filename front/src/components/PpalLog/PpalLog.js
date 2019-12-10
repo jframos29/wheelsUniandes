@@ -18,7 +18,6 @@ function PpalLog(props) {
 
 
   const backUrl = "http://localhost:5000";
-  // const backUrl = "https://wheelsuniandes.herokuapp.com";
 
   let history = useHistory();
   function crearRuta() {

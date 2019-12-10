@@ -47,7 +47,6 @@ function CrearRuta(props) {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
   const backUrl = "http://localhost:5000";
-  // const backUrl = "https://wheelsuniandes.herokuapp.com";
 
   const style = {
     width: '100%',
@@ -215,7 +214,7 @@ function CrearRuta(props) {
                   <label htmlFor="fecha">Fecha de salida</label>
                   <input type="date" className="from-control" id="fecha" name="trip-start" min={anho + "-" + mes + "-" + dia} max="2025-12-31" onChange={e => setFecha(e.target.value)}></input>
                   <label htmlFor="hora">Hora de salida</label>
-                  <input type="time" id="hora" name="appt" min={horaT + ":" + minutos} max="23:59" onChange={e => setHora(e.target.value)} required></input>
+                  <input type="time" id="hora" name="appt" onChange={e => setHora(e.target.value)} required></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="carro">Elige el carro de esta ruta</label>

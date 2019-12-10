@@ -7,8 +7,7 @@ function Login(props) {
 
   let history = useHistory();
   const backUrl = "http://localhost:5000";
-  // const backUrl = "https://wheelsuniandes.herokuapp.com";
-  const wsUrl = "wss://wheelsuniandes.herokuapp.com";
+  const wsUrl = "ws://localhost:5000";
   const [correo, setCorreo] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);
