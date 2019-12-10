@@ -49,7 +49,7 @@ function CrearRuta(props) {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl ="https://wheelsuniandes.herokuapp.com";
 
   const style = {
     width: '100%',
@@ -85,7 +85,7 @@ function CrearRuta(props) {
       const timestamp = Math.floor(fechita.getTime() / 1000);
       const bodyService = JSON.stringify({
         "dueño": user.uid,
-        "cuposRestantes": cupos,
+        "cuposRestantes": +(cupos),
         "usuarios": [],
         "ruta": [],
         "duracionAprox":"",

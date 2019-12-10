@@ -15,7 +15,7 @@ function PpalLog(props) {
   const [maxDestino, setMaxDestino] = useState('');
   const [lista, setLista] = useState([]);
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl ="https://wheelsuniandes.herokuapp.com";
 
   let history = useHistory();
   function crearRuta() {
@@ -109,7 +109,9 @@ function PpalLog(props) {
       // history.push('/rutasDisponibles');
 
     })();
-    alert("Te has unido a la ruta!")
+    alert("Te has unido a la ruta!");
+    props.funcionMisWheels(props.cookies.get('wheelsUser'),props.cookies.get('wheelsToken'));
+    props.funcionServicios(props.cookies.get('wheelsUser'),props.cookies.get('wheelsToken'));
   }
 
 
@@ -184,11 +186,11 @@ function PpalLog(props) {
           <div className="row heading">
             <div className="col">
             <h2>Mis wheels</h2>
-            {props.misWheels.map((element)=>{return <p>Ruta de {element.distancia} con una duración aproximada de {element.duracionAprox}. Tiene actualmente {element.usuarios.length} usuario(s).</p>})}
+            {props.misWheels?props.misWheels.map((element)=>{return <p>Ruta de {element.distancia} con una duración aproximada de {element.duracionAprox}. Tiene actualmente {element.usuarios.length} usuario(s).</p>}):<p></p>}
             </div>
             <div className="col">
             <h2>Todos los servicios</h2>
-            {props.servicios.map((element)=>{return <p> Ruta de {element.dueño}, con una duración aproximada de {element.duracionAprox} y una distancia de {element.distancia}. Tiene actualmente {element.usuarios.length} usuario(s).</p>})}
+            {props.servicios?props.servicios.map((element)=>{return <p> Ruta de {element.dueño}, con una duración aproximada de {element.duracionAprox} y una distancia de {element.distancia}. Tiene actualmente {element.usuarios.length} usuario(s).</p>}):<p></p>}
               </div>
           </div>
         </div>

@@ -24,7 +24,7 @@ function App(props) {
   const [servicios, setServicios] = useState([]);
   const [serviciosPropios, setServiciosPropios] = useState([]);
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl ="https://wheelsuniandes.herokuapp.com";
 
   const wsUrl = "wss://wheelsuniandes.herokuapp.com";
 
@@ -97,15 +97,16 @@ function App(props) {
       }
 
       connection.onmessage = (msg) => {
-        console.log(msg);
         if (msg.data.includes("cars#")) {
           const data = msg.data.split("#")[1];
           const jsonData = JSON.parse(data);
+          console.log(jsonData);
           setCarros(jsonData);
         }
         else if (msg.data.includes("services#")) {
           const data = msg.data.split("#")[1];
           const jsonData = JSON.parse(data);
+          console.log(jsonData);
           setServicios(jsonData);
           let results=[];
           for(let ser of jsonData){
@@ -113,6 +114,7 @@ function App(props) {
               results.push(ser);
             }
           }
+          console.log(results);
           setServiciosPropios(results);
         }
         else {

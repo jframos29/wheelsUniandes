@@ -7,7 +7,7 @@ function Register(props) {
 
 
   let history = useHistory();
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl ="https://wheelsuniandes.herokuapp.com";
   const wsUrl = "wss://wheelsuniandes.herokuapp.com";
 
 
