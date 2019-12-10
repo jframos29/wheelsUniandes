@@ -17,7 +17,8 @@ function PpalLog(props) {
   const [listaMisWheels, setListaMisWheels] = useState([]);
 
 
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl = "http://localhost:5000";
+  // const backUrl = "https://wheelsuniandes.herokuapp.com";
 
   let history = useHistory();
   function crearRuta() {
@@ -48,7 +49,7 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
-
+      console.log(rta);
 
       const tempO = rta.resultadoInicio.results[0].geometry.location;
       const tempD = rta.resultadoFin.results[0].geometry.location;
@@ -122,6 +123,7 @@ function PpalLog(props) {
         }
       });
       const rta = await req.json();
+      console.log(rta);
       // history.push('/rutasDisponibles');
 
     })();
@@ -181,11 +183,11 @@ function PpalLog(props) {
                 {lista
                 .map((element) => {
                           //const param = element;
-                          console.log(element);
-                          return <div key={element._id} style={{marginBottom: 1.5 + 'rem'}}>
+                          console.log(element, element.servicio._id);
+                          return <div key={element.servicio._id} style={{marginBottom: 1.5 + 'rem'}}>
+                            <button onClick={() => reservar(element.servicio)} className="btn yellow">Reservar</button>servicio de {element.servicio.dueño}. Duración aproximada del viaje: {element.servicio.duracionAprox}
                           </div>
                         })
-                        //<button onClick={() => reservar(param)} className="btn yellow">Reservar</button>servicio el {element.departureTime} por {element.usuarios[0]}
                       // <option disabled>Agrega algún carro</option>
                     }
                 </div>

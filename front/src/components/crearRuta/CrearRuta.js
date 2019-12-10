@@ -46,7 +46,8 @@ function CrearRuta(props) {
   function repetirProceso() {
     alert("Vuelve a ingresar los datos para obtener mayor precisión");
   }
-  const backUrl = "https://wheelsuniandes.herokuapp.com";
+  const backUrl = "http://localhost:5000";
+  // const backUrl = "https://wheelsuniandes.herokuapp.com";
 
   const style = {
     width: '100%',
@@ -152,7 +153,6 @@ function CrearRuta(props) {
       const rta = await req.json();
       console.log(rta);
 
-
       const tempO = rta.resultadoInicio.results[0].geometry.location;
       const tempD = rta.resultadoFin.results[0].geometry.location;
 
@@ -166,6 +166,9 @@ function CrearRuta(props) {
       console.log("destino", latDestino, lonDestino);
 
       setConfirmacion(true);
+      if(rta=="200"){
+
+      }
 
       //usa la respuesta
     })();
