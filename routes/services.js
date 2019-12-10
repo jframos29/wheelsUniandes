@@ -223,6 +223,7 @@ router.get("/historialServicio/:userId", function (req, res) {
 router.post("/misServicios", function (req, res) {
   (async () => {
     const hasAuth = await authorized(req);
+    console.log("asdfgfas",hasAuth);
     if (hasAuth) {
       const user = JSON.parse(req.header("user"));
       var resultados = [];
@@ -231,6 +232,7 @@ router.post("/misServicios", function (req, res) {
         resultados.push(result[service]);
       }
       res.send(JSON.stringify(resultados));
+      console.log(resultados);
     }
     else {
       res.sendStatus(403);

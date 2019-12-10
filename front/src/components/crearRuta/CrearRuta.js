@@ -32,6 +32,8 @@ function CrearRuta(props) {
   const [cupos, setCupos] = useState(0);
   const [cupoExtra, setCupoExtra] = useState(0);
 
+  const carros = props.consultarCarros(JSON.parse(props.cookies.cookies.wheelsUser), props.cookies.cookies.wheelsToken);
+
 
   let history = useHistory();
   const dotenv = require("dotenv");

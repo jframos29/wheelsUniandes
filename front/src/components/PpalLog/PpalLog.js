@@ -90,17 +90,21 @@ function PpalLog(props) {
   const misWheels = ()=>{
     ( async ()=>{
     const user = JSON.stringify(props.cookies.get('wheelsUser'));
+    console.log("vamos a consultar")
     const req = await fetch(`${backUrl}/services/misServicios`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${props.cookies.get('wheelsToken')}`,
         'user': JSON.stringify(user),
         'Content-Type': 'application/json'
       }
     });
+    console.log("aja y?")
     const rta = await req.json();
+    console.log(rta);
     setListaMisWheels(rta);
   })()
+  console.log(listaMisWheels)
   };
 
   function preguntarDestino() {
@@ -139,9 +143,9 @@ function PpalLog(props) {
       }
       unirseRuta(newBody);
   }
+  misWheels();
 
-
-
+console.log(listaMisWheels);
 
   return (
     props.cookies.cookies.wheelsToken ?

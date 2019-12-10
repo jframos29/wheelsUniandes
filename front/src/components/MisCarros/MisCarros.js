@@ -12,6 +12,8 @@ function MisCarros(props) {
   function agregarCarro() {
     setAgregar(true);
   }
+  const carros = props.consultarCarros(JSON.parse(props.cookies.cookies.wheelsUser), props.cookies.cookies.wheelsToken);
+
 
   return (
     props.cookies.cookies.wheelsToken ?

@@ -25,7 +25,6 @@ function App(props) {
 
   const backUrl = "http://localhost:5000";
   const wsUrl = "ws://localhost:5000";
-
   var timerId = 0;
 
   const funcionCookie = (cookie, user) => {
@@ -41,7 +40,6 @@ function App(props) {
   }
 
   const consultarCarros = (user, token) => {
-    console.log("Hola", user);
     (async () => {
       const req = await fetch(`${backUrl}/cars/${user.uid}`, {
         method: 'GET',
@@ -51,9 +49,7 @@ function App(props) {
           'Content-Type': 'application/json'
         }
       });
-      console.log("Request Carros", req);
       const rta = await req.json();
-      console.log(rta);
       setCarros(rta);
     })();
   };
@@ -102,8 +98,8 @@ function App(props) {
       <Route path="/register" render={() => <Register {...props} funcionCookie={funcionCookie} signout={signout} wsConn={wsConn} />} />
       <Route path="/login" render={() => <Login {...props} funcionCookie={funcionCookie} signout={signout} wsConn={wsConn} />} />
       <Route path='/ppalLog' render={() => <PpalLog {...props} />} />
-      <Route path='/crearRuta' render={() => <CrearRuta {...props} carros={carros} />} />
-      <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros} />} />
+      <Route path='/crearRuta' render={() => <CrearRuta {...props} carros={carros} consultarCarros={consultarCarros}/>} />
+      <Route path='/misCarros' render={() => <MisCarros {...props} carros={carros} consultarCarros={consultarCarros} />} />
       <Route path='/rutasDisponibles' render={() => <RutasDisponibles {...props} carros={carros} />} />
 
 
