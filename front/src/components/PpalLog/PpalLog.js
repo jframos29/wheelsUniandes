@@ -127,11 +127,15 @@ function PpalLog(props) {
     unirseRuta(newBody);
   }
 
+
+  console.log(props.servicios);
   return (
     props.cookies.cookies.wheelsToken ?
       <div className="App">
         <div className="container heading">
           <h1>Bienvenido {props.allCookies.wheelsUser.uid} </h1>
+          <p>Si deseas <strong>crear</strong> rutas de wheels, primero debes <strong><a href="/misCarros">añadir algún vehículo</a></strong> y luego puedes clickear en el botón a tu izquierda.</p>
+          <p>Si deseas <strong>unirte</strong> a alguna ruta sólo debes clickear en el botón a tu derecha y dar la información necesaria.</p>
           <div className="row heading">
             <div className="col">
               <button onClick={crearRuta} className="btn yellow-black">Crear ruta de Wheels</button>
@@ -182,11 +186,14 @@ function PpalLog(props) {
             </div>
           </div>
           <div className="row heading">
+            <div className="col">
             <h2>Mis wheels</h2>
-            {props.misWheels.map((element)=>{return <p>{element._id} //  </p>})}
+            {props.misWheels.map((element)=>{return <p>Ruta de {element.distancia} con una duración aproximada de {element.duracionAprox}. Tiene actualmente {element.usuarios.length} usuario(s).</p>})}
+            </div>
+            <div className="col">
             <h2>Todos los servicios</h2>
-            {props.servicios.map((element)=>{return <p>{element._id}</p>})}
-
+            {props.servicios.map((element)=>{return <p> Ruta de {element.dueño}, con una duración aproximada de {element.duracionAprox} y una distancia de {element.distancia}. Tiene actualmente {element.usuarios.length} usuario(s).</p>})}
+              </div>
           </div>
         </div>
       </div>
