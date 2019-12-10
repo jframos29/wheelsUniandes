@@ -62,25 +62,6 @@ const functions = {
     });
   },
 
-  listenToChangesOnly(cbk, collection){
-    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
-      if (err !== null) {
-        throw err;
-      }
-      console.log("Connected correctly to server");
-      const db = client.db(dbName);
-      const testCol = db.collection(collection);
-
-      const csCursor = testCol.watch();
-
-      console.log("Listening to changes on "+collection+" collection");
-      csCursor.on("change", data => {
-        console.log(data);
-        cbk(JSON.stringify(data));
-      });
-    });
-  },
-
   get(resolve, reject, db, collection_name, query = {}, limit = 100, sort = {}) {
     doTry(reject, () => {
       db.collection(collection_name)

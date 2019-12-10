@@ -29,6 +29,8 @@ const MyWSLib = function () {
       });
     });
   };
+
+
   MyWSLib.notifyAll = data => {
     let i = 0;
     console.log(clients);
@@ -54,16 +56,6 @@ const MyWSLib = function () {
     const userT = a.uid;
     if (clients[userT]) {
       clients[userT].send("cars#" + JSON.stringify(tempJson));
-    }
-  };
-
-  MyWSLib.notifyUserService = data => {
-    const tempJson = JSON.parse(data);
-    console.log("Upa", tempJson);
-    let a=tempJson[0];
-    const userT = a.uid;
-    if (clients[userT]) {
-      clients[userT].send("add#" + JSON.stringify(tempJson));
     }
   };
 

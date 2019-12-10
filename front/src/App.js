@@ -80,7 +80,7 @@ function App(props) {
           setServicios(jsonData);
         }
         else {
-          //TODO
+          //Nothing to do
         }
       };
 
