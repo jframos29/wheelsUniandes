@@ -214,9 +214,9 @@ function CrearRuta(props) {
                 </div>
                 <div className="form-group">
                   <label htmlFor="fecha">Fecha de salida</label>
-                  <input type="date" className="from-control" id="fecha" name="trip-start" min={anho + "-" + mes + "-" + dia} max="2025-12-31" onChange={e => setFecha(e.target.value)}></input>
+                  <input type="date" className="form-control" id="fecha" name="trip-start" min={anho + "-" + mes + "-" + dia} max="2025-12-31" onChange={e => setFecha(e.target.value)}></input>
                   <label htmlFor="hora">Hora de salida</label>
-                  <input type="time" id="hora" name="appt" onChange={e => setHora(e.target.value)} required></input>
+                  <input className="form-control" type="time" id="hora" name="appt" onChange={e => setHora(e.target.value)} required></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="carro">Elige el carro de esta ruta</label>
