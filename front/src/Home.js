@@ -10,7 +10,6 @@ import Register from './components/Register/Register';
 // 2: Register
 // 3: PpalLog
 
-
 function Home() {
 
   
@@ -22,6 +21,7 @@ function Home() {
             <img alt="logo" id="logo" src={logo}></img>
             <div className="heading">
               <i><h4>Únete y haz que tu experiencia de movilidad  <br />hacia la U sea mucho más agradable</h4></i>
+    
             </div>
             <div className="heading">
               <p>¡<a href="/register">Regístrate</a>, Crea rutas de Wheels o Únete a otra rutas!</p>
