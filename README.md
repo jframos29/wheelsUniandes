@@ -34,3 +34,5 @@ mongod --replSet rs
 mongo
 rs.initiate()
 ```
+
+!!Deberian indicar que variables de entorno se deben crear y como para que funcionen las cosas en la aplicacion!!
