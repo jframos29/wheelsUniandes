@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './RutasDisponibles.css';
 import unirse from '../../assets/unirse.png'
 import crear from '../../assets/crear.png'
+import {Redirect} from "react-router-dom";
 
 function RutasDisponibles(props) {
 
@@ -24,7 +25,7 @@ function RutasDisponibles(props) {
           </div>        </div>
       </div>
       :
-      <div className="App heading"><h2>Redirígete a <a href="/"> la página principal</a>. <br/> Debes iniciar sesión para usar el contenido de Wheels Uniandes</h2></div>
+      <Redirect to="/"/>
   );
 }
 
